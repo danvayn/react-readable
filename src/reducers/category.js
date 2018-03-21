@@ -9,8 +9,6 @@ const initialState = {
     loading: true,
   },
   list: [
-    {name: 'React', path: 'react'},
-    {name: 'Bootstrap', path: 'bootstrap'},
   ],
 };
 const category = (state = initialState, action) => {

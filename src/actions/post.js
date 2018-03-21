@@ -34,10 +34,10 @@ export function fetchPosts() {
 }
 
 function shouldFetchPosts(state, subreddit) {
-  const posts = state.posts.list
+  const posts = state.posts
   if (posts[1] == null) {
     return true //see if theres a better way to do this
-  } else if (posts.status.isFetching) {
+  } else if (posts.postStatus.loading) {
     return false
   }
 }

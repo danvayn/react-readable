@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import logo from '../logo.svg';
 import '../App.css';
 
-import Header from './Header'
-import PostList from './PostList'
+import RootPageContainer from './RootPageView'
+import CategoryContainer from './CategoryView'
 
 import { fetchCategories } from '../actions/category';
 import { fetchPostsIfNeeded } from '../actions/post';
+
+
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 class App extends Component {
   componentWillMount() {
@@ -19,13 +22,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header/>
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <PostList/>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={RootPageContainer} />
+          <Route path="/category/:categoryName" component={CategoryContainer} />
+        </Switch>
+    </Router>
     );
   }
 }

@@ -8,7 +8,7 @@ const initialState = {
   list: [],
   postStatus: {
     error: false,
-    loading: false,
+    loading: true,
   },
   sortPosts: {
     //filter here
@@ -23,12 +23,16 @@ const post = (state = initialState, action) => {
         postStatus: {
           error: false,
           loading: true,
-        }
+        },
       }
     case RECEIVE_POSTS_SUCCESS:
       return {
         ...state,
-        list: action.posts
+        list: action.posts,
+        postStatus: {
+          error: false,
+          loading: false,
+        },
       }
       case RECEIVE_POSTS_FAILURE:
       return {
@@ -36,7 +40,7 @@ const post = (state = initialState, action) => {
         postStatus: {
           error: true,
           loading: false,
-        }
+        },
       }
     // case REQUEST_POSTS:
     //   return Object.assign({}, state, {
