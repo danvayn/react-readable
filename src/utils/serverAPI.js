@@ -39,6 +39,15 @@ export const getPosts = () =>
   }).then(res => res.json())
     .then(data => data);
 
+export const getPost = (id) =>
+  fetch(`${api}/posts/${id}`, {
+    method: 'GET',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
+
 export const getCategories = () =>
   fetch(`${api}/categories`, {
     method: 'GET',
@@ -48,8 +57,9 @@ export const getCategories = () =>
   }).then(res => res.json())
     .then(data => data);
 
-export const getPostsFromCategory = (category) =>
-  fetch(`${api}/${category}/posts`, {
+
+export const getComments = (id) =>
+  fetch(`${api}/posts/${id}/comments`, {
     method: 'GET',
     headers: {
       ...headers,

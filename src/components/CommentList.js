@@ -1,46 +1,43 @@
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // import LinkContainer from 'react-router-bootstrap';
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import VotePanel from '../components/votePanel'
 import { connect } from 'react-redux';
-import { voteDownPost, voteUpPost } from '../actions/vote'
-import { ListedPost } from '../components/listedPost'
+import { voteDownComment, voteUpComment } from '../actions/vote'
 
 //https://react-bootstrap.github.io/layout/media/
 
-class ListOfPosts extends Component {
+class ListOfComments extends Component {
 
-      //<ListedPost voteUp={voteUp} voteDown={voteDown} post={post}/>
+    // constructor(props) {
+    //     super(props);
+    //     console.log("COMMENT LIST PROPS");
+    //     console.log(props);
+    // }
 
   static propTypes = {
-    posts: PropTypes.array.isRequired,
+    comments: PropTypes.array.isRequired,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
-  render() {
-    const { voteUp, voteDown, posts } = this.props;
 
+  render() {
+    const { voteUp, voteDown, comments } = this.props;
     return (
-      <ListGroup className="flush post-list">
-        {posts && posts.map((post,index) =>
+      <ListGroup className="flush comment-list">
+        {comments && comments.map((comment,index) =>
           <ListGroupItem
-            className="post-listing"
-            key={post.id}>
+            className="comment-listing"
+            key={comment.id}>
             <VotePanel
-                voteScore={post.voteScore}
+                voteScore={comment.voteScore}
                 voteUp={voteUp}
                 voteDown={voteDown}
-                voteID={post.id}/>
+                voteID={comment.id}/>
 
-            <NavLink to={"/post/" + post.id}>
-              <h4 className="list-group-item-heading">{post.title}</h4>
-            </NavLink>
-            <NavLink to={"/post/" + post.id}>
-              {post.commentCount} comments
-            </NavLink>
-            <Badge>/r/{post.category}</Badge>
+              <h4 style={{display: "inline"}}>{comment.body}</h4>
 
         </ListGroupItem>
         )}
@@ -48,19 +45,20 @@ class ListOfPosts extends Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  return {
-    }
-  }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    voteUp: (voteID) => dispatch(voteUpPost(voteID)),
-    voteDown: (voteID) => dispatch(voteDownPost(voteID)),
+    voteUp: (voteID) => dispatch(voteUpComment(voteID)),
+    voteDown: (voteID) => dispatch(voteDownComment(voteID)),
+  };
+};
+const mapStateToProps = (state, ownProps) => {
+  return {
+    comments: state.comments.list
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListOfPosts);
+export default connect(mapStateToProps, mapDispatchToProps)(ListOfComments);
 
 // const ListOfPosts = ({posts, postStatus}) => {
 //   if(postStatus.loading === false && postStatus.error === false) {

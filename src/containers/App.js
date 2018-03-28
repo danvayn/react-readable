@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import logo from '../logo.svg';
 import '../App.css';
 
-import RootPageContainer from './RootPageView'
-import CategoryContainer from './CategoryView'
+import RootPageView from '../views/root'
+import CategoryView from '../views/category'
+import PostView from '../views/post'
+import SubmitPost from './SubmitPost'
 
 import { fetchCategories } from '../actions/category';
 import { fetchPostsIfNeeded } from '../actions/post';
-
+import Header from '../containers/Header'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
@@ -24,10 +26,12 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={RootPageContainer} />
-          <Route path="/category/:categoryName" component={CategoryContainer} />
+          <Route exact path="/" component={RootPageView} />
+          <Route path="/r/:categoryName" component={CategoryView} />
+          <Route path="/post/:postID" component={PostView} />
+          <Route path="/submit/:categoryName" component={SubmitPost} />
         </Switch>
-    </Router>
+      </Router>
     );
   }
 }
@@ -42,6 +46,12 @@ const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(fetchPostsIfNeeded()),
 });
 
-let AppContainer = connect(null, mapDispatchToProps)(App);
+const mapStateToProps = (state) => {
+  return {
+    state: state
+  }
+}
+
+let AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default AppContainer;
