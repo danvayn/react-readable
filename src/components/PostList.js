@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // import LinkContainer from 'react-router-bootstrap';
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom';
 import VotePanel from '../components/votePanel'
 import { connect } from 'react-redux';
 import { voteDownPost, voteUpPost } from '../actions/vote'
-import { ListedPost } from '../components/listedPost'
+import ListedPost from './listedPost'
+import { sortArray } from '../utils/sort';
 
 //https://react-bootstrap.github.io/layout/media/
 
@@ -14,34 +15,33 @@ class ListOfPosts extends Component {
 
       //<ListedPost voteUp={voteUp} voteDown={voteDown} post={post}/>
 
+
+      shouldComponentUpdate(nextProps, nextState){
+        console.log("did this run")
+          // return a boolean value
+          return true;
+      }
+
   static propTypes = {
     posts: PropTypes.array.isRequired,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
   render() {
-    const { voteUp, voteDown, posts } = this.props;
-
+    const { voteUp, voteDown, posts, selectedSort } = this.props;
     return (
       <ListGroup className="flush post-list">
         {posts && posts.map((post,index) =>
           <ListGroupItem
             className="post-listing"
-            key={post.id}>
+            key={post.id}
+            style={{width: '100%'}}>
             <VotePanel
                 voteScore={post.voteScore}
                 voteUp={voteUp}
                 voteDown={voteDown}
                 voteID={post.id}/>
-
-            <NavLink to={"/post/" + post.id}>
-              <h4 className="list-group-item-heading">{post.title}</h4>
-            </NavLink>
-            <NavLink to={"/post/" + post.id}>
-              {post.commentCount} comments
-            </NavLink>
-            <Badge>/r/{post.category}</Badge>
-
+              <ListedPost className="pull-right" post={post}/>
         </ListGroupItem>
         )}
       </ListGroup>
@@ -61,31 +61,3 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListOfPosts);
-
-// const ListOfPosts = ({posts, postStatus}) => {
-//   if(postStatus.loading === false && postStatus.error === false) {
-//     return (
-//       <div>
-//         <ListGroup className="post-list">
-//
-//           { posts.map((post,index) =>
-//             <ListGroupItem to="/"
-//                           className="post" key={post.id} href={`/${post.path}`}>
-//                           {post.title}
-//                         </ListGroupItem>
-//                       )}
-//         </ListGroup>
-//       </div>
-//     )
-//   } else {
-//     return (<div>loading or error...</div>);
-//   }
-// }
-//
-// ListOfPosts.propTypes = {
-//   posts: PropTypes.array.isRequired,
-//   postStatus: PropTypes.shape({
-//     loading: PropTypes.boolean,
-//     error: PropTypes.boolean,
-//   }).isRequired,
-// };

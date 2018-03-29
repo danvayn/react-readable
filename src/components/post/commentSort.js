@@ -20,9 +20,9 @@ class CommentSort extends Component {
 
   handleSelect(key) {
     this.setState({ key });
-    this.sortPosts(key);
+    this.sortComments(key);
   }
-  sortPosts(key){
+  sortComments(key){
     if(key === 1) {
       this.props.sortByHighestVotes();
     } else if (key === 2) {

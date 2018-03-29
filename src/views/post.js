@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CommentSort from '../components/post/commentSort'
-import CommentList from '../components/CommentList'
+import CommentList from '../components/post/CommentList'
 import PostHeader from '../components/post/Header'
 import Header from '../containers/Header'
 import Sidebar from '../containers/Sidebar'
@@ -26,7 +26,7 @@ class PostPage extends Component {
     }
   }
   render(){
-    const { post, comments } = this.props;
+    const { post, comments, selectedSort } = this.props;
     return (
       <div className="page post-page">
         <Header showSort={false} currentCategory={post.category}/>
@@ -35,7 +35,7 @@ class PostPage extends Component {
             <Col xs={12} md={8}>
               <PostHeader post={post}/>
               <CommentSort/>
-              <CommentList comments={comments}/>
+              <CommentList comments={comments} sortedBy={selectedSort}/>
             </Col>
             <Col xs={12} md={4}>
               <Sidebar category={post.category} body={"blah"}/>
@@ -54,6 +54,7 @@ class PostPage extends Component {
      post_id: post_id,
      post: post[0] || {},
      comments: state.comments.list,
+     selectedSort: state.comments.commentStatus.selectedSort,
    }
  }
 

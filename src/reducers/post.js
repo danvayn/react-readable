@@ -15,6 +15,8 @@ import {
   DOWNVOTE_POST,
 } from '../actions/vote'
 
+import { sortArray } from '../utils/sort';
+
 const initialState = {
   list: [],
   postStatus: {
@@ -68,15 +70,25 @@ const post = (state = initialState, action) => {
       return {
         ...state,
         }
+    case SORT_POSTS_BY_NEW:
+      return {
+        ...state,
+        list: sortArray({contents: [...state.list], order: 'newest'}),
+      }
+    case SORT_POSTS_BY_OLD:
+      return {
+        ...state,
+        list: sortArray({contents: [...state.list], order: 'oldest'}),
+      }
     case SORT_POSTS_BY_HIGHEST_VOTE:
       return {
         ...state,
-        postStatus: { ...state.postStatus, selectedSort: 'highest' },
+        list: sortArray({contents: [...state.list], order: 'highest'}),
       }
     case SORT_POSTS_BY_LOWEST_VOTE:
       return {
         ...state,
-        postStatus: { ...state.postStatus, selectedSort: "lowest" },
+        list: sortArray({contents: [...state.list], order: 'lowest'}),
       }
     default:
       return state;

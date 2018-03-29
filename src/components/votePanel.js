@@ -25,14 +25,21 @@ class votePanel extends Component {
       margin: '40px',
       border: '5px solid pink'
     };
-    
+    const panelStyle = {
+      textAlign: 'center',
+      maxWidth: '50px',
+      marginLeft: '-25px',
+      marginBottom: '0px',
+      boxSizing: 'content-box',
+      display: 'inline-block'}
+
     return(
-      <Panel style={{maxWidth: '20px', boxSizing: 'content-box', display: 'inline-block'}} className={"vote-panel voted-" + voteStatus}>
+      <Panel style={panelStyle} className={"vote-panel voted-" + voteStatus}>
         <Panel.Heading style={{padding: '0'}}>
           <UpIcon onClick={() => this.props.voteUp(voteID)}/>
         </Panel.Heading>
-        <Panel.Body style={{padding: '0'}}>
-        <span className={"score score-"+ voteStatus}>{ voteScore }</span>
+        <Panel.Body style={{padding: '5px'}}>
+        <span className={"score score-"+ voteStatus}>{voteScore}</span>
         </Panel.Body>
         <Panel.Footer style={{padding: '0'}}>
         <DownIcon onClick={() => this.props.voteDown(voteID)}/>

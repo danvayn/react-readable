@@ -23,7 +23,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
             <PostList posts={posts}/>
             </Col>
             <Col xs={12} md={4}>
-      <Sidebar category={category} body={"This is where a category would have a body if it was part of the API request"}/>
+      <Sidebar category={category} body={(category+' ').repeat(200)}/>
       </Col>
     </Row>
   </Grid>

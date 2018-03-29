@@ -23,6 +23,7 @@ class PostSort extends Component {
     this.sortPosts(key);
   }
   sortPosts(key){
+    
     if(key === 1) {
       this.props.sortByHighestVotes();
     } else if (key === 2) {
@@ -51,10 +52,8 @@ class PostSort extends Component {
         <Tab eventKey={2} title="Downvotes">
         </Tab>
         <Tab eventKey={3} title="Newest">
-          Tab 3 content
         </Tab>
         <Tab eventKey={4} title="Oldest">
-          Tab 4 content
         </Tab>
       </Tabs>
     </div>
@@ -69,12 +68,12 @@ PostSort.propTypes = {
   sortByOldest: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  highlightTabNewest: state.post.sortPosts.newest,
-  highlightTabOldest: state.post.sortPosts.oldest,
-  highlightTabLowest: state.post.sortPosts.lowest,
-  highlightTabHighest: state.post.sortPosts.highest,
-});
+// const mapStateToProps = state => ({
+//   highlightTabNewest: state.post.sortPosts.newest,
+//   highlightTabOldest: state.post.sortPosts.oldest,
+//   highlightTabLowest: state.post.sortPosts.lowest,
+//   highlightTabHighest: state.post.sortPosts.highest,
+// });
 
 const mapDispatchToProps = dispatch => ({
   sortByNewest: () => {

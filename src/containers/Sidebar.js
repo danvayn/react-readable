@@ -5,14 +5,18 @@ import { Button, Panel } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const SidebarContainer = ({category=false, body="placeholder"}) => {
+  const button = category ? (
+    <Button bsStyle="primary">Submit post to {category}</Button>
+  ) : (
+    <Button bsStyle="warning" disabled>Submit Disabled</Button>
+  )
 
  return (
-
    <Panel className="sidebar" defaultExpanded>
      <Panel.Heading>
        <Panel.Title>
          <LinkContainer to={"/submit/" + category}>
-           <Button bsStyle="primary">Submit post to {category}</Button>
+           {button}
          </LinkContainer>
        </Panel.Title>
      </Panel.Heading>

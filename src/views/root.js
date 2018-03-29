@@ -5,6 +5,7 @@ import Sidebar from '../containers/Sidebar'
 import PostList from '../components/PostList'
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
+import { sortArray } from '../utils/sort';
 
 const RootPage = ({posts, content}) => {
  return (
@@ -16,7 +17,7 @@ const RootPage = ({posts, content}) => {
          <PostList posts={posts}/>
          </Col>
          <Col xs={12} md={4}>
-         <Sidebar category={"none"} body={"Navigate to a category to submit a post on it!"}/>
+         <Sidebar body={"Navigate to a category to submit a post on it!"}/>
          </Col>
        </Row>
      </Grid>

@@ -3,19 +3,28 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // import LinkContainer from 'react-router-bootstrap';
 import PropTypes from 'prop-types'
 // import { NavLink } from 'react-router-dom';
-import VotePanel from '../components/votePanel'
+import VotePanel from '../../components/votePanel'
 import { connect } from 'react-redux';
-import { voteDownComment, voteUpComment } from '../actions/vote'
+import { voteDownComment, voteUpComment } from '../../actions/vote'
+import { destroyComments } from '../../actions/comment'
+import { Row } from 'react-bootstrap';
+import ListedComment from './listedComment'
+import { sortArray } from '../../utils/sort';
 
 //https://react-bootstrap.github.io/layout/media/
 
 class ListOfComments extends Component {
-
-    // constructor(props) {
-    //     super(props);
-    //     console.log("COMMENT LIST PROPS");
-    //     console.log(props);
-    // }
+  constructor(props){
+    super(props);
+    this.state = {
+      comments: this.props.comments
+    }
+}
+shouldComponentUpdate(nextProps, nextState){
+  console.log("did this run")
+    // return a boolean value
+    return true;
+}
 
   static propTypes = {
     comments: PropTypes.array.isRequired,
@@ -24,7 +33,7 @@ class ListOfComments extends Component {
   }
 
   render() {
-    const { voteUp, voteDown, comments } = this.props;
+  const { voteUp, voteDown, comments } = this.props;
     return (
       <ListGroup className="flush comment-list">
         {comments && comments.map((comment,index) =>
@@ -36,9 +45,7 @@ class ListOfComments extends Component {
                 voteUp={voteUp}
                 voteDown={voteDown}
                 voteID={comment.id}/>
-
-              <h4 style={{display: "inline"}}>{comment.body}</h4>
-
+            <ListedComment comment={comment}/>
         </ListGroupItem>
         )}
       </ListGroup>
@@ -50,6 +57,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     voteUp: (voteID) => dispatch(voteUpComment(voteID)),
     voteDown: (voteID) => dispatch(voteDownComment(voteID)),
+    destroyComments: () => dispatch(destroyComments()),
   };
 };
 const mapStateToProps = (state, ownProps) => {

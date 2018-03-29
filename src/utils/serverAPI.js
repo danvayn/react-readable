@@ -1,3 +1,4 @@
+import { randomID } from './misc'
 
 const api = "http://localhost:3001"
 const headers = {
@@ -6,29 +7,7 @@ const headers = {
   'cache-control': 'no-cache',
 };
 
-// export function fetchOffers(dispatch) {
-// 	const request = axios({
-// 		method: 'GET',
-// 		url: `${BASE_URL}/offers`,
-// 		headers: {
-//     Authorization: 'Granted',
-//     'content-type': 'application/json',
-//     'cache-control': 'no-cache',
-//   }
-// 	});
-//
-// 	request.then((response) => {
-// 		dispatch(fetchOffersSuccess(response));
-// 	})
-// 	.catch((err) => {
-// 		dispatch(fetchOffersError(err))
-// 	})
-//
-// 	return {
-// 		type: FETCH_OFFERS,
-// 		payload: request
-// 	};
-// }
+//GET commands
 
 export const getPosts = () =>
   fetch(`${api}/posts`, {
@@ -61,6 +40,18 @@ export const getCategories = () =>
 export const getComments = (id) =>
   fetch(`${api}/posts/${id}/comments`, {
     method: 'GET',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
+
+//POST commands (submitting)
+
+export const submitComment = (comment) =>
+  fetch(`${api}/comments`, {
+    body: JSON.stringify({...comment, id: randomID(5)}),
+    method: 'POST',
     headers: {
       ...headers,
     },
