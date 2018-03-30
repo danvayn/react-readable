@@ -1,8 +1,15 @@
-import { getPosts } from '../utils/serverAPI';
-import { getPost } from '../utils/serverAPI';
+import { getPosts, getPost, postPost } from '../utils/serverAPI';
 //constants
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const REQUEST_POST = 'REQUEST_POST'
+export const RECEIVE_POSTS_SUCCESS = 'RECEIVE_POSTS_SUCCESS'
+export const RECEIVE_POSTS_FAILURE = 'RECEIVE_POSTS_FAILURE'
+export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS'
+export const RECEIVE_POST_FAILURE = 'RECEIVE_POST_FAILURE'
+export const POST_SEND_SUCCESS = 'REPLY_SEND_SUCCESS'
+export const POST_SEND_FAIL = 'REPLY_SEND_FAIL'
+export const POST_DELETE_SUCCESS = 'REPLY_DELETE_SUCCESS'
+export const POSE_DELETE_FAIL = 'REPLY_DELETE_FAIL'
 
 function requestPosts(category = null) {
   // getCategory = category || 'all'
@@ -19,14 +26,11 @@ function requestPost(post_id) {
   }
 }
 
-export const RECEIVE_POSTS_SUCCESS = 'RECEIVE_POSTS_SUCCESS'
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS_SUCCESS,
   posts,
 });
 
-export const RECEIVE_POSTS_FAILURE = 'RECEIVE_POSTS_FAILURE';
-export const RECEIVE_POST_FAILURE = 'RECEIVE_POST_FAILURE';
 export const errorReceivingPosts = () => ({
   type: RECEIVE_POSTS_FAILURE,
 });
@@ -74,22 +78,18 @@ export function fetchPostsIfNeeded(){
   }
 }
 
-export const SORT_POSTS_BY_NEW = 'SORT_POSTS_BY_NEW';
-export const sortPostsByNew = () => ({
-  type: SORT_POSTS_BY_NEW,
+export const submitPost = (reply) => dispatch => {
+  postPost(reply)
+    .then((post) => dispatch(postCreated(post)))
+    .catch(error => dispatch(errorSubmittingPost(error)));
+}
+
+export const postCreated = (post) => ({
+  type: POST_SEND_SUCCESS,
+  post: post
 });
 
-export const SORT_POSTS_BY_OLD = 'SORT_POSTS_BY_OLD';
-export const sortPostsByOld = () => ({
-  type: SORT_POSTS_BY_OLD,
-});
-
-export const SORT_POSTS_BY_HIGHEST_VOTE = 'SORT_POSTS_BY_HIGHEST_VOTE';
-export const sortPostsByHighestVote = () => ({
-  type: SORT_POSTS_BY_HIGHEST_VOTE,
-});
-
-export const SORT_POSTS_BY_LOWEST_VOTE = 'SORT_POSTS_BY_LOWEST_VOTE';
-export const sortPostsByLowestVote = () => ({
-  type: SORT_POSTS_BY_LOWEST_VOTE,
+export const errorSubmittingPost = (error) => ({
+  type: POST_SEND_FAIL,
+  error: error
 });

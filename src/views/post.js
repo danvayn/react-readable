@@ -13,20 +13,13 @@ import { fetchCommentsIfNeeded } from '../actions/comment';
 import { fetchPost } from '../actions/post';
 
 class PostPage extends Component {
-
   static propTypes = {
     post: PropTypes.object.isRequired,
     getComments: PropTypes.func.isRequired,
 
   }
-  componentDidMount(){
-    const post_id = this.props.post_id
-    if(post_id){
-      this.props.getComments(post_id);
-    }
-  }
   render(){
-    const { post, comments, selectedSort } = this.props;
+    const { post, selectedSort } = this.props;
     return (
       <div className="page post-page">
         <Header showSort={false} currentCategory={post.category}/>
@@ -35,7 +28,7 @@ class PostPage extends Component {
             <Col xs={12} md={8}>
               <PostHeader post={post}/>
               <CommentSort/>
-              <CommentList comments={comments} sortedBy={selectedSort}/>
+              <CommentList comments={this.props.comments}/>
             </Col>
             <Col xs={12} md={4}>
               <Sidebar category={post.category} body={"blah"}/>
@@ -53,8 +46,8 @@ class PostPage extends Component {
    return {
      post_id: post_id,
      post: post[0] || {},
-     comments: state.comments.list,
-     selectedSort: state.comments.commentStatus.selectedSort,
+     comments: state.comments.list || [],
+     order: state.comments.commentStatus.order,
    }
  }
 
@@ -65,9 +58,30 @@ class PostPage extends Component {
  }
 }
 
-const PostPageContainer = ({getComments, post, post_id}) => {
-  return (
-    <PostPage post={post} post_id={post_id} getComments={getComments}/>
-  )
+class PostPageContainer extends React.Component {
+  state = {
+    comments: []
+  }
+  componentDidUpdate(prevProps,prevState, snapshot) {
+  console.log("Did Update POSTPAGECONTAINER")
+    let oldComments = prevProps.comments
+    let newComments = this.props.comments
+    console.log(oldComments,newComments,prevState.comments,this.state.comments)
+   if (oldComments !== newComments) {
+    this.setState({comments: this.props.comments})
+  }
+  }
+  componentDidMount(){
+    const post_id = this.props.post_id
+    if(post_id){
+      this.props.getComments(post_id);
+    }
+  }
+  render(){
+    const {post_id, getComments, post} = this.props;
+    return (
+      <PostPage post={post} comments={this.state.comments} getComments={getComments}/>
+    )
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostPageContainer);

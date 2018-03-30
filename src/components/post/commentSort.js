@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { sortCommentsByOld,
 sortCommentsByNew,
 sortCommentsByLowestVote,
-sortCommentsByHighestVote, } from '../../actions/comment';
+sortCommentsByHighestVote, } from '../../actions/sort';
 
 class CommentSort extends Component {
   constructor(props, context) {

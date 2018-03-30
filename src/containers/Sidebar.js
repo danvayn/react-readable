@@ -4,20 +4,27 @@ import PropTypes from 'prop-types';
 import { Button, Panel } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const SidebarContainer = ({category=false, body="placeholder"}) => {
+//notes: this is not really a container, extract the view to components
+
+const SidebarContainer = ({category, body="placeholder"}) => {
   const button = category ? (
+    //note: i know this is a little weird but this is incase i wanted to disable the button
+
+      <LinkContainer to={"/submit/" + category}>
     <Button bsStyle="primary">Submit post to {category}</Button>
+
+    </LinkContainer>
   ) : (
-    <Button bsStyle="warning" disabled>Submit Disabled</Button>
+  <LinkContainer to={"/submit/"}>
+    <Button bsStyle="primary">Submit post</Button>
+  </LinkContainer>
   )
 
  return (
    <Panel className="sidebar" defaultExpanded>
      <Panel.Heading>
        <Panel.Title>
-         <LinkContainer to={"/submit/" + category}>
-           {button}
-         </LinkContainer>
+         {button}
        </Panel.Title>
      </Panel.Heading>
      <Panel.Collapse>

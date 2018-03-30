@@ -5,11 +5,16 @@ import {
   REPLY_SEND_FAIL,
   LOADING_COMMENTS,
   DESTROY_COMMENTS,
+  DELETE_COMMENT_SUCCESS,
+  DELETE_COMMENT_FAIL,
+} from '../actions/comment';
+
+import {
   SORT_COMMENTS_BY_LOWEST_VOTE,
   SORT_COMMENTS_BY_HIGHEST_VOTE,
   SORT_COMMENTS_BY_NEW,
   SORT_COMMENTS_BY_OLD,
-} from '../actions/comment';
+} from '../actions/sort'
 
 
 import {
@@ -24,7 +29,7 @@ const initialState = {
   commentStatus: {
     error: false,
     loading: false,
-    selectedSort: '',
+    order: 'highest',
   },
   list: [
   ],
@@ -45,11 +50,11 @@ const comments = (state = initialState, action) => {
     case COMMENTS_RECEIVE_SUCCESS:
       return {
         ...state,
-        list: sortArray({contents: comments, order: 'highest'}),
+        list: sortArray({contents: comments, order: state.commentStatus.order}),
         commentStatus: {
           error: false,
           loading: false,
-          selectedSort: 'highest',
+          order: 'highest',
         }
       }
     case COMMENTS_RECEIVE_FAIL:
@@ -61,14 +66,26 @@ const comments = (state = initialState, action) => {
           loading: false
         }
       }
-    case REPLY_SEND_SUCCESS:
-      const commentList = state.list;
-      commentList.push(action.response);
+    case DESTROY_COMMENTS:
       return {
         ...state,
-        list: commentList,
+        list: [],
+        commentStatus: {
+          error: false,
+          loading: false
+        }
       }
-    case REPLY_SEND_FAIL:
+
+    case DELETE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter(comment => comment.id !== action.comment_id),
+        commentStatus: {
+          error: false,
+          loading: false
+        }
+      }
+    case DELETE_COMMENT_FAIL:
       return {
         ...state,
         commentStatus: {
@@ -76,12 +93,17 @@ const comments = (state = initialState, action) => {
           loading: false
         }
       }
-    case DESTROY_COMMENTS:
+
+    case REPLY_SEND_SUCCESS:
       return {
         ...state,
-        list: [],
+        list: sortArray({contents: [...state.list, action.response], order: state.commentStatus.order}),
+      }
+    case REPLY_SEND_FAIL:
+      return {
+        ...state,
         commentStatus: {
-          error: false,
+          error: true,
           loading: false
         }
       }
@@ -97,21 +119,25 @@ const comments = (state = initialState, action) => {
           return {
             ...state,
             list: sortArray({contents: [...state.list], order: 'newest'}),
+            commentStatus: {order: 'newest'}
           }
         case SORT_COMMENTS_BY_OLD:
           return {
             ...state,
             list: sortArray({contents: [...state.list], order: 'oldest'}),
+            commentStatus: {order: 'oldest'}
           }
         case SORT_COMMENTS_BY_HIGHEST_VOTE:
           return {
             ...state,
             list: sortArray({contents: [...state.list], order: 'highest'}),
+            commentStatus: {order: 'highest'}
           }
         case SORT_COMMENTS_BY_LOWEST_VOTE:
           return {
             ...state,
             list: sortArray({contents: [...state.list], order: 'lowest'}),
+            commentStatus: {order: 'lowest'}
           }
     default:
       return state;

@@ -2,41 +2,59 @@ import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // import LinkContainer from 'react-router-bootstrap';
 import PropTypes from 'prop-types'
+import Modal from './modal'
 // import { NavLink } from 'react-router-dom';
 import VotePanel from '../../components/votePanel'
 import { connect } from 'react-redux';
 import { voteDownComment, voteUpComment } from '../../actions/vote'
-import { destroyComments } from '../../actions/comment'
-import { Row } from 'react-bootstrap';
+import { deleteReply } from '../../actions/comment'
+import { Button, Row } from 'react-bootstrap';
 import ListedComment from './listedComment'
 import { sortArray } from '../../utils/sort';
+import { timeConverter } from '../../utils/misc'
 
 //https://react-bootstrap.github.io/layout/media/
 
 class ListOfComments extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      comments: this.props.comments
-    }
-}
-shouldComponentUpdate(nextProps, nextState){
-  console.log("did this run")
-    // return a boolean value
-    return true;
+  constructor(props) {
+    super(props)
+    this.handleDelete = this.handleDelete.bind(this);
+    this.state = { comments: [] }
 }
 
+componentDidMount(){
+    this.setState({comments: this.props.comments})
+}
+componentDidUpdate(prevProps,prevState, snapshot) {
+  let oldComments = prevProps.comments
+  let newComments = this.props.comments
+ if (oldComments !== newComments) {
+  this.setState({comments: this.props.comments})
+}
+}
   static propTypes = {
     comments: PropTypes.array.isRequired,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
+  handleDelete(comment_id){
+    this.props.deleteComment(comment_id);
+    this.setState({comments: this.state.comments.filter(comment => comment.id !== comment_id)})
+  }
 
   render() {
-  const { voteUp, voteDown, comments } = this.props;
+  const { voteUp, voteDown, deleteReply } = this.props;
+
+  const listedStyle = {
+    display: "inline-block",
+    marginLeft: "25px",
+    verticalAlign: "top",
+    marginTop: "5px"
+  }
+
     return (
       <ListGroup className="flush comment-list">
-        {comments && comments.map((comment,index) =>
+        {this.state.comments && this.state.comments.map((comment,index) =>
           <ListGroupItem
             className="comment-listing"
             key={comment.id}>
@@ -45,7 +63,25 @@ shouldComponentUpdate(nextProps, nextState){
                 voteUp={voteUp}
                 voteDown={voteDown}
                 voteID={comment.id}/>
-            <ListedComment comment={comment}/>
+            <div style={listedStyle}>
+
+              <Row>
+                <h4 style={{display: "inline"}}>{comment.body}</h4>
+              </Row>
+              <Row>
+                <span>Submitted by {comment.author} on {timeConverter(comment.timestamp)}</span>
+              </Row>
+              <Row>
+                {//<Modal replyID=comment.id}/>
+                }
+                  <Button
+                    className={(comment.author === 'dan') ? '':'hidden'}
+                    onClick={() => {if(window.confirm('Delete this post')){this.handleDelete(comment.id)}}}
+                    bsStyle="danger">
+                    Delete Post
+                  </Button>
+                </Row>
+            </div>
         </ListGroupItem>
         )}
       </ListGroup>
@@ -57,7 +93,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     voteUp: (voteID) => dispatch(voteUpComment(voteID)),
     voteDown: (voteID) => dispatch(voteDownComment(voteID)),
-    destroyComments: () => dispatch(destroyComments()),
+    deleteComment: (comment_id) => dispatch(deleteReply(comment_id)),
   };
 };
 const mapStateToProps = (state, ownProps) => {

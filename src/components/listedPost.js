@@ -1,9 +1,17 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { NavLink } from 'react-router-dom';
 import { ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { timeConverter } from '../utils/misc'
-const ListedPost = ({post}) => {
+class ListedPost extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      commentCount: this.props.commentCount || 0
+    }
+  }
+  render(){
+  const post = this.props.post;
   const listedStyle = {
     display: "inline-block",
     marginLeft: "25px",
@@ -31,6 +39,7 @@ const ListedPost = ({post}) => {
     </Row>
     </div>
   )
+}
 }
 
 export default ListedPost

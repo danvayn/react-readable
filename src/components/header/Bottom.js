@@ -5,16 +5,25 @@ import { NavLink } from 'react-router-dom';
 import { Button, PageHeader, Grid, Row, Col } from 'react-bootstrap';
 import PostSort from './postSort'
 
-const Bottom = ({current, showSort}) => {
+const Bottom = (props) => {
+  const catDisplay = () => {
+    if(props.current) {
+      return (<NavLink to={'/r/'+ props.current}>
+      {props.current}
+    </NavLink>)
+    } else {
+      return (<NavLink to={'/'}>Readable</NavLink>)
+    }
+  }
   return (
     <Row className="header-bottom">
       <Col xsHidden md={3} >
         <img src={logo} height="100px"/>
-        <NavLink to={current ? '/r/'+current: current}>
-          <span>{current ? current : "Readable"}</span>
-        </NavLink>
+        {/* <NavLink to={current ? '/r/'+current: current}>
+      </NavLink>*/}
+        {catDisplay()}
       </Col>
-      {showSort &&
+      {props.showSort &&
         <Col xs={12} md={5}>
           <PostSort/>
         </Col>

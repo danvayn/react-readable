@@ -5,16 +5,17 @@ import {
   RECEIVE_POST_SUCCESS,
   REQUEST_POSTS,
   REQUEST_POST,
-  SORT_POSTS_BY_LOWEST_VOTE,
-  SORT_POSTS_BY_HIGHEST_VOTE,
-  SORT_POSTS_BY_NEW,
-  SORT_POSTS_BY_OLD,
 } from '../actions/post'
 import {
   UPVOTE_POST,
   DOWNVOTE_POST,
 } from '../actions/vote'
-
+import {
+SORT_POSTS_BY_LOWEST_VOTE,
+SORT_POSTS_BY_HIGHEST_VOTE,
+SORT_POSTS_BY_NEW,
+SORT_POSTS_BY_OLD,
+} from '../actions/sort'
 import { sortArray } from '../utils/sort';
 
 const initialState = {

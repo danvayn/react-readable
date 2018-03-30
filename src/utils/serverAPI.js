@@ -57,3 +57,24 @@ export const submitComment = (comment) =>
     },
   }).then(res => res.json())
     .then(data => data);
+
+export const postPost = (post) =>
+  fetch(`${api}/posts`, {
+    body: JSON.stringify({...post, id: randomID(5)}),
+    method: 'POST',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
+
+//DELETE Commands (removing)
+
+export const deleteComment = (comment_id) =>
+  fetch(`${api}/comments/${comment_id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);

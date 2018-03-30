@@ -1,19 +1,19 @@
 import React, {Component} from 'react'
 import { NavLink } from 'react-router-dom';
 import { FormGroup, ControlLabel, FormControl, Row, Popover, Tooltip, Button, Modal, OverlayTrigger } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import { submitReply } from '../../actions/comment'
 
-class CommentModal extends React.Component {
+class oneFieldModal extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {value: ''};
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      show: false
+      show: false,
     };
   }
 
@@ -24,13 +24,15 @@ class CommentModal extends React.Component {
   handleShow() {
     this.setState({ show: true });
   }
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.submitReply({body: this.state.value, timestamp: Date.now(), parentId: this.props.replyID, author: "dan"});
+  handleSubmit() {
+    this.props.onSubmit({relatedId: this.props.relatedId, body: this.state.value, submittedBy: "dan"});
     this.setState({ show: false });
   }
-  handleChange(e) {
-    this.setState({value: e.target.value});
+  componentDidMount(){
+    this.setState({modalId: this.props.relatedId});
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
   }
 
   render() {
@@ -47,12 +49,12 @@ class CommentModal extends React.Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Submit a comment</Modal.Title>
+            <Modal.Title>{this.props.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={(e) => this.handleSubmit(e)}>
+            <form onSubmit={() => this.handleSubmit()}>
               <FormGroup controlId="formControlsTextarea">
-                <FormControl componentClass="textarea" placeholder="textarea" value={this.state.value} onChange={e=> this.handleChange(e)}/>
+                <FormControl componentClass="textarea" placeholder="textarea" value={this.state.value} onChange={(event) => this.handleChange(event)}/>
               </FormGroup>
             </form>
           </Modal.Body>
@@ -66,10 +68,4 @@ class CommentModal extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    submitReply: (reply) => dispatch(submitReply(reply)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CommentModal);
+export default oneFieldModal;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { sortPostsByOld,
 sortPostsByNew,
 sortPostsByLowestVote,
-sortPostsByHighestVote, } from '../../actions/post';
+sortPostsByHighestVote, } from '../../actions/sort';
 
 class PostSort extends Component {
   constructor(props, context) {
@@ -23,7 +23,7 @@ class PostSort extends Component {
     this.sortPosts(key);
   }
   sortPosts(key){
-    
+
     if(key === 1) {
       this.props.sortByHighestVotes();
     } else if (key === 2) {

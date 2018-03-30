@@ -8,12 +8,12 @@ import '../App.css';
 import RootPageView from '../views/root'
 import CategoryView from '../views/category'
 import PostView from '../views/post'
-import SubmitPost from './SubmitPost'
+import SubmitPost from '../views/submit'
 
 import { fetchCategories } from '../actions/category';
 import { fetchPostsIfNeeded } from '../actions/post';
 import Header from '../containers/Header'
-
+import NoMatch  from '../views/NotFound'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 class App extends Component {
@@ -29,7 +29,9 @@ class App extends Component {
           <Route exact path="/" component={RootPageView} />
           <Route path="/r/:categoryName" component={CategoryView} />
           <Route path="/post/:postID" component={PostView} />
+          <Route exact path="/submit/" component={SubmitPost} />
           <Route path="/submit/:categoryName" component={SubmitPost} />
+          <Route component={NoMatch} />
         </Switch>
       </Router>
     );

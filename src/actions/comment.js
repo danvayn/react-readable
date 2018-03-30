@@ -1,13 +1,17 @@
-import { getComments } from '../utils/serverAPI';
-import { submitComment } from '../utils/serverAPI'
+import {
+  getComments,
+  submitComment,
+  deleteComment,
+ } from '../utils/serverAPI';
 
 export const COMMENTS_RECEIVE_SUCCESS = 'COMMENTS_RECEIVE_SUCCESS';
 export const COMMENTS_RECEIVE_FAIL = 'COMMENTS_RECEIVE_FAIL';
 export const REPLY_SEND_SUCCESS = 'REPLY_SEND_SUCCESS';
-export const REPLY_SEND_FAIL = 'REPLY_RECEIVE_FAIL';
+export const REPLY_SEND_FAIL = 'REPLY_SEND_FAIL';
 export const LOADING_COMMENTS = 'LOADING_COMMENTS';
 export const DESTROY_COMMENTS = 'DESTROY_COMMENTS';
-
+export const DELETE_COMMENT_FAIL = 'COMMENT_DELETE_SUCCESSFUL'
+export const DELETE_COMMENT_SUCCESS = 'COMMENT_DELETE_SUCCESSFUL'
 
 export const fetchComments = (post_id) => dispatch => {
   getComments(post_id)
@@ -38,15 +42,28 @@ export function fetchCommentsIfNeeded(post_id){
 
 function shouldFetchComments(state, post_id) {
   const comments = state.comments
-  if (comments && comments.commentStatus.loading) {
-    return false
-  }
-  else {
+  // if (comments && comments.commentStatus.loading) {
+    // return false
+  // }
+  // else {
     return true
-  }
+  // }
 }
+  export const deleteReply = (comment_id) => dispatch => {
+    deleteComment(comment_id)
+      .then((response) => dispatch(commentDeleteSuccessful(response.id)))
+      .catch(error => dispatch(errorDeletingComment(error)));
+  }
 
-  export const SUBMIT_REPLY = 'SUBMIT_REPLY'
+  export const commentDeleteSuccessful = (comment_id) => ({
+    type: DELETE_COMMENT_SUCCESS,
+    comment_id: comment_id
+  })
+  export const errorDeletingComment = (error) => ({
+    type: DELETE_COMMENT_FAIL,
+    error: error
+  })
+
   export const submitReply = (reply) => dispatch => {
     submitComment(reply)
       .then((response) => dispatch(replyReceived(response)))
@@ -61,25 +78,4 @@ function shouldFetchComments(state, post_id) {
   export const errorSubmittingReply = (error) => ({
     type: REPLY_SEND_FAIL,
     error: error
-  });
-
-
-  export const SORT_COMMENTS_BY_NEW = 'SORT_COMMENTS_BY_NEW';
-  export const sortCommentsByNew = () => ({
-    type: SORT_COMMENTS_BY_NEW,
-  });
-
-  export const SORT_COMMENTS_BY_OLD = 'SORT_COMMENTS_BY_OLD';
-  export const sortCommentsByOld = () => ({
-    type: SORT_COMMENTS_BY_OLD,
-  });
-
-  export const SORT_COMMENTS_BY_HIGHEST_VOTE = 'SORT_COMMENTS_BY_HIGHEST_VOTE';
-  export const sortCommentsByHighestVote = () => ({
-    type: SORT_COMMENTS_BY_HIGHEST_VOTE,
-  });
-
-  export const SORT_COMMENTS_BY_LOWEST_VOTE = 'SORT_COMMENTS_BY_LOWEST_VOTE';
-  export const sortCommentsByLowestVote = () => ({
-    type: SORT_COMMENTS_BY_LOWEST_VOTE,
   });
