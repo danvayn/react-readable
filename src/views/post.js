@@ -4,7 +4,7 @@ import CommentSort from '../components/post/commentSort'
 import CommentList from '../components/post/CommentList'
 import PostHeader from '../components/post/Header'
 import Header from '../containers/Header'
-import Sidebar from '../containers/Sidebar'
+import Sidebar from '../components/Sidebar'
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -63,10 +63,8 @@ class PostPageContainer extends React.Component {
     comments: []
   }
   componentDidUpdate(prevProps,prevState, snapshot) {
-  console.log("Did Update POSTPAGECONTAINER")
     let oldComments = prevProps.comments
     let newComments = this.props.comments
-    console.log(oldComments,newComments,prevState.comments,this.state.comments)
    if (oldComments !== newComments) {
     this.setState({comments: this.props.comments})
   }

@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 //notes: this is not really a container, extract the view to components
 
-const SidebarContainer = ({category, body="placeholder"}) => {
+const Sidebar = ({category, children}) => {
   const button = category ? (
     //note: i know this is a little weird but this is incase i wanted to disable the button
 
@@ -29,9 +29,9 @@ const SidebarContainer = ({category, body="placeholder"}) => {
      </Panel.Heading>
      <Panel.Collapse>
      <Panel.Body>
-       {body}
+       {children}
      </Panel.Body>
     </Panel.Collapse>
    </Panel>
  );};
- export default SidebarContainer;
+ export default Sidebar;

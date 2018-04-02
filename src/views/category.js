@@ -3,15 +3,21 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import '../App.css';
-// import { Route, Switch } from 'react-router-dom';
-// import PostPageContainer from './post'
 
 import Header from '../containers/Header'
 import PostList from '../components/PostList'
-import Sidebar from '../containers/Sidebar'
+import Sidebar from '../components/Sidebar'
 import { Grid, Row, Col } from 'react-bootstrap';
 
  const CategoryPageContainer = ({category, posts}) => {
+   const genericBody = (
+     <Grid flexible>
+     <Row>{category+' is a subreddit on readable.'}</Row>
+     <Row>{category+' is great.'}</Row>
+     <Row>{'Dont you love visiting /r/'+category+'?'}</Row>
+     </Grid>
+   )
+
   return (
     <div className="page category">
 
@@ -23,7 +29,9 @@ import { Grid, Row, Col } from 'react-bootstrap';
             <PostList posts={posts}/>
             </Col>
             <Col xs={12} md={4}>
-      <Sidebar category={category} body={(category+' ').repeat(200)}/>
+      <Sidebar category={category}>
+        {genericBody}
+      </Sidebar>
       </Col>
     </Row>
   </Grid>

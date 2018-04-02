@@ -7,6 +7,8 @@ import {
   DESTROY_COMMENTS,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAIL,
+  EDIT_COMMENT_FAIL,
+  EDIT_COMMENT_SUCCESS,
 } from '../actions/comment';
 
 import {
@@ -93,7 +95,21 @@ const comments = (state = initialState, action) => {
           loading: false
         }
       }
-
+      case EDIT_COMMENT_SUCCESS:
+        const indexOf = state.list.findIndex((comment) => (comment.id === action.response.id))
+        state.list[indexOf] = action.response
+        return {
+          ...state,
+          list:  [...state.list]
+        }
+      case EDIT_COMMENT_FAIL:
+        return {
+          ...state,
+          commentStatus: {
+            error: true,
+            loading: false
+          }
+        }
     case REPLY_SEND_SUCCESS:
       return {
         ...state,

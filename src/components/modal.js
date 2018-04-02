@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { NavLink } from 'react-router-dom';
 import { FormGroup, ControlLabel, FormControl, Row, Popover, Tooltip, Button, Modal, OverlayTrigger } from 'react-bootstrap';
-import { submitReply } from '../../actions/comment'
+import { connect } from 'react-redux';
 
 class oneFieldModal extends React.Component {
   constructor(props, context) {
@@ -25,11 +25,12 @@ class oneFieldModal extends React.Component {
     this.setState({ show: true });
   }
   handleSubmit() {
-    this.props.onSubmit({relatedId: this.props.relatedId, body: this.state.value, submittedBy: "dan"});
+    this.props.onSubmit({
+      relatedId: (this.props.relatedId || ''),
+      body: this.state.value,
+      submittedBy: this.props.userName,
+      timestamp: Date.now()});
     this.setState({ show: false });
-  }
-  componentDidMount(){
-    this.setState({modalId: this.props.relatedId});
   }
   handleChange(event) {
     this.setState({value: event.target.value});
@@ -45,7 +46,7 @@ class oneFieldModal extends React.Component {
 
     return (
       <div>
-        <a href="#" onClick={this.handleShow}>Reply</a>
+        <a href="#show" onClick={this.handleShow}>{this.props.displayText}</a>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -54,7 +55,7 @@ class oneFieldModal extends React.Component {
           <Modal.Body>
             <form onSubmit={() => this.handleSubmit()}>
               <FormGroup controlId="formControlsTextarea">
-                <FormControl componentClass="textarea" placeholder="textarea" value={this.state.value} onChange={(event) => this.handleChange(event)}/>
+                <FormControl componentClass="textarea" placeholder={this.props.placeholder || ""} value={this.state.value} onChange={(event) => this.handleChange(event)}/>
               </FormGroup>
             </form>
           </Modal.Body>
@@ -68,4 +69,15 @@ class oneFieldModal extends React.Component {
   }
 }
 
-export default oneFieldModal;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userName: state.user.username
+    }
+  }
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+  };
+};
+
+export default connect(mapStateToProps, null)(oneFieldModal);

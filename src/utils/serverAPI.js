@@ -78,3 +78,15 @@ export const deleteComment = (comment_id) =>
     },
   }).then(res => res.json())
     .then(data => data);
+
+//EDIT COMMANDS (patch)
+
+export const editComment = (comment) =>
+  fetch(`${api}/comments/${comment.comment_id}`, {
+    method: 'PUT',
+      body: JSON.stringify({body: comment.body, timestamp: comment.timestamp}),
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);

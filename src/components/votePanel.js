@@ -6,11 +6,6 @@ import UpIcon from 'react-icons/lib/fa/arrow-up'
 import DownIcon from 'react-icons/lib/fa/arrow-down'
 
 class votePanel extends Component {
-//   constructor(props) {
-//     super(props)
-//
-//     console.log(this.props);
-// }
   static propTypes = {
     voteScore: PropTypes.number.isRequired,
     voteUp: PropTypes.func.isRequired,
@@ -28,7 +23,8 @@ class votePanel extends Component {
     const panelStyle = {
       textAlign: 'center',
       maxWidth: '50px',
-      marginLeft: '-25px',
+      minWidth: '25px',
+      marginLeft: '-30px',
       marginBottom: '0px',
       boxSizing: 'content-box',
       display: 'inline-block'}

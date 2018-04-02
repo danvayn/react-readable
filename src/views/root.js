@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Header from '../containers/Header'
-import Sidebar from '../containers/Sidebar'
+import Sidebar from '../components/Sidebar'
 import PostList from '../components/PostList'
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-bootstrap';
@@ -17,7 +17,9 @@ const RootPage = ({posts, content}) => {
          <PostList posts={posts}/>
          </Col>
          <Col xs={12} md={4}>
-         <Sidebar body={"Navigate to a category to submit a post on it!"}/>
+         <Sidebar>
+           Welcome to the website. This is the sidebar you'll be seeing on category pages.
+         </Sidebar>
          </Col>
        </Row>
      </Grid>

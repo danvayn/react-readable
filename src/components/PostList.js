@@ -12,16 +12,6 @@ import { sortArray } from '../utils/sort';
 //https://react-bootstrap.github.io/layout/media/
 
 class ListOfPosts extends Component {
-
-      //<ListedPost voteUp={voteUp} voteDown={voteDown} post={post}/>
-
-
-      shouldComponentUpdate(nextProps, nextState){
-        console.log("did this run")
-          // return a boolean value
-          return true;
-      }
-
   static propTypes = {
     posts: PropTypes.array.isRequired,
     voteUp: PropTypes.func.isRequired,

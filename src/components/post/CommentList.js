@@ -2,18 +2,16 @@ import React, { Component } from 'react'
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 // import LinkContainer from 'react-router-bootstrap';
 import PropTypes from 'prop-types'
-import Modal from './modal'
+import Modal from '../modal'
 // import { NavLink } from 'react-router-dom';
 import VotePanel from '../../components/votePanel'
 import { connect } from 'react-redux';
 import { voteDownComment, voteUpComment } from '../../actions/vote'
-import { deleteReply } from '../../actions/comment'
+import { deleteReply, editReply } from '../../actions/comment'
 import { Button, Row } from 'react-bootstrap';
 import ListedComment from './listedComment'
 import { sortArray } from '../../utils/sort';
 import { timeConverter } from '../../utils/misc'
-
-//https://react-bootstrap.github.io/layout/media/
 
 class ListOfComments extends Component {
   constructor(props) {
@@ -29,11 +27,11 @@ componentDidUpdate(prevProps,prevState, snapshot) {
   let oldComments = prevProps.comments
   let newComments = this.props.comments
  if (oldComments !== newComments) {
-  this.setState({comments: this.props.comments})
+  this.setState({comments: newComments})
 }
 }
   static propTypes = {
-    comments: PropTypes.array.isRequired,
+    comments: PropTypes.array,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
@@ -43,7 +41,7 @@ componentDidUpdate(prevProps,prevState, snapshot) {
   }
 
   render() {
-  const { voteUp, voteDown, deleteReply } = this.props;
+  const { voteUp, voteDown, deleteReply, submitEdit, userName } = this.props;
 
   const listedStyle = {
     display: "inline-block",
@@ -71,16 +69,23 @@ componentDidUpdate(prevProps,prevState, snapshot) {
               <Row>
                 <span>Submitted by {comment.author} on {timeConverter(comment.timestamp)}</span>
               </Row>
-              <Row>
-                {//<Modal replyID=comment.id}/>
-                }
+              { comment.author === userName && (
+                <Row>
                   <Button
-                    className={(comment.author === 'dan') ? '':'hidden'}
                     onClick={() => {if(window.confirm('Delete this post')){this.handleDelete(comment.id)}}}
                     bsStyle="danger">
                     Delete Post
                   </Button>
+
+                    <Modal
+                      relatedId={comment.id}
+                      onSubmit={submitEdit}
+                      displayText={"Edit this post"}
+                      title={"Edit post"}
+                      placeholder={comment.body}
+                    />
                 </Row>
+              )}
             </div>
         </ListGroupItem>
         )}
@@ -94,11 +99,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     voteUp: (voteID) => dispatch(voteUpComment(voteID)),
     voteDown: (voteID) => dispatch(voteDownComment(voteID)),
     deleteComment: (comment_id) => dispatch(deleteReply(comment_id)),
+    submitEdit: (form) => dispatch(editReply({
+      comment_id: form.relatedId,
+      body: form.body,
+    }))
   };
 };
 const mapStateToProps = (state, ownProps) => {
   return {
-    comments: state.comments.list
+    comments: state.comments.list,
+    userName: state.user.username
   };
 };
 

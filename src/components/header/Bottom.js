@@ -4,6 +4,7 @@ import logo from '../../logo.svg';
 import { NavLink } from 'react-router-dom';
 import { Button, PageHeader, Grid, Row, Col } from 'react-bootstrap';
 import PostSort from './postSort'
+import Modal from '../modal'
 
 const Bottom = (props) => {
   const catDisplay = () => {
