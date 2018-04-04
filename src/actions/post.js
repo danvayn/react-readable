@@ -1,4 +1,4 @@
-import { getPosts, getPost, postPost } from '../utils/serverAPI';
+import { getPosts, getPost, postPost, deletePost } from '../utils/serverAPI';
 //constants
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const REQUEST_POST = 'REQUEST_POST'
@@ -6,10 +6,11 @@ export const RECEIVE_POSTS_SUCCESS = 'RECEIVE_POSTS_SUCCESS'
 export const RECEIVE_POSTS_FAILURE = 'RECEIVE_POSTS_FAILURE'
 export const RECEIVE_POST_SUCCESS = 'RECEIVE_POST_SUCCESS'
 export const RECEIVE_POST_FAILURE = 'RECEIVE_POST_FAILURE'
-export const POST_SEND_SUCCESS = 'REPLY_SEND_SUCCESS'
-export const POST_SEND_FAIL = 'REPLY_SEND_FAIL'
-export const POST_DELETE_SUCCESS = 'REPLY_DELETE_SUCCESS'
-export const POSE_DELETE_FAIL = 'REPLY_DELETE_FAIL'
+export const POST_SEND_SUCCESS = 'POST_SEND_SUCCESS'
+export const POST_SEND_FAIL = 'POST_SEND_FAIL'
+export const DELETE_POST_SUCCESS = 'POST_DELETE_SUCCESS'
+export const DELETE_POST_FAIL = 'POST_DELETE_FAIL'
+export const UPDATE_POST = 'UPDATE_POST'
 
 function requestPosts(category = null) {
   // getCategory = category || 'all'
@@ -78,9 +79,9 @@ export function fetchPostsIfNeeded(){
   }
 }
 
-export const submitPost = (reply) => dispatch => {
-  postPost(reply)
-    .then((post) => dispatch(postCreated(post)))
+export const submitPost = (post) => dispatch => {
+  postPost(post)
+    .then((response) => dispatch(postCreated(response)))
     .catch(error => dispatch(errorSubmittingPost(error)));
 }
 
@@ -93,3 +94,25 @@ export const errorSubmittingPost = (error) => ({
   type: POST_SEND_FAIL,
   error: error
 });
+
+
+export const updatePost = (response) => ({
+  type: UPDATE_POST,
+  response: response
+});
+
+
+export const deleteYourPost = (post_id) => dispatch => {
+  deletePost(post_id)
+    .then((response) => dispatch(postDeleteSuccessful(response.id)))
+    .catch(error => dispatch(errorDeletingPost(error)));
+}
+
+export const postDeleteSuccessful = (post_id) => ({
+  type: DELETE_POST_SUCCESS,
+  post_id: post_id
+})
+export const errorDeletingPost = (error) => ({
+  type: DELETE_POST_FAIL,
+  error: error
+})

@@ -6,7 +6,7 @@ import logo from '../logo.svg';
 import '../App.css';
 
 import RootPageView from '../views/root'
-import CategoryView from '../views/category'
+import CategoryRouter from './Category'
 import PostView from '../views/post'
 import SubmitPost from '../views/submit'
 
@@ -27,10 +27,9 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={RootPageView} />
-          <Route path="/r/:categoryName" component={CategoryView} />
+          <Route path="/:categoryName" component={CategoryRouter} />
           <Route path="/post/:postID" component={PostView} />
-          <Route exact path="/submit/" component={SubmitPost} />
-          <Route path="/submit/:categoryName" component={SubmitPost} />
+          <Route exact path="/submit" component={SubmitPost} />
           <Route component={NoMatch} />
         </Switch>
       </Router>

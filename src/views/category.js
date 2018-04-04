@@ -11,11 +11,11 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
  const CategoryPageContainer = ({category, posts}) => {
    const genericBody = (
-     <Grid flexible>
+     <div className="zeroMargin">
      <Row>{category+' is a subreddit on readable.'}</Row>
      <Row>{category+' is great.'}</Row>
      <Row>{'Dont you love visiting /r/'+category+'?'}</Row>
-     </Grid>
+     </div>
    )
 
   return (
@@ -39,9 +39,9 @@ import { Grid, Row, Col } from 'react-bootstrap';
   );};
 
 const mapStateToProps = (state, ownProps) => {
-  const currentCategory = ownProps.match.params.categoryName
+  let currentCategory = ownProps.match.params.categoryName
   return {
-    category: ownProps.match.params.categoryName,
+    category: currentCategory,
     posts: state.posts.list.filter(post => post.category === currentCategory)
   }
 }

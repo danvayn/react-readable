@@ -1,12 +1,24 @@
+import React from 'react';
+import { connect } from 'react-redux';
 
-const CategoryPageContainer = ({category, posts}) => {
- return (
-   <div className="page category">
+import AppView from './App'
+import PostView from '../views/post'
+import CategoryView from '../views/category'
+import SubmitPost from '../views/submit'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-     <Header currentCategory={category}/>
-     <PostList posts={posts}/>
+const categoryRouter = () => {
+  return (
+    <Router>
+      <Switch>
+      <Route exact path="/submit" component={SubmitPost} />
+        <Route exact path="/" component={AppView} />
+        <Route exact path="/:categoryName/submit/" component={SubmitPost} />
+        <Route exact path="/:categoryName/:postID" component={PostView} />
+        <Route exact path="/:categoryName" component={CategoryView} />
+      </Switch>
+    </Router>
+  )
+}
 
-   </div>
- );};
-
- export default CategoryPageContainer
+export default categoryRouter

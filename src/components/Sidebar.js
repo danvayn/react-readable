@@ -7,10 +7,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 //notes: this is not really a container, extract the view to components
 
 const Sidebar = ({category, children}) => {
+  console.log(category)
   const button = category ? (
     //note: i know this is a little weird but this is incase i wanted to disable the button
 
-      <LinkContainer to={"/submit/" + category}>
+      <LinkContainer to={'/'+category + "/submit/"}>
     <Button bsStyle="primary">Submit post to {category}</Button>
 
     </LinkContainer>

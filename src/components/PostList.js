@@ -5,7 +5,7 @@ import { ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import VotePanel from '../components/votePanel'
 import { connect } from 'react-redux';
-import { voteDownPost, voteUpPost } from '../actions/vote'
+import { submitPostVote } from '../actions/vote'
 import ListedPost from './listedPost'
 import { sortArray } from '../utils/sort';
 
@@ -45,13 +45,14 @@ class ListOfPosts extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
+    userName: state.user.username
     }
   }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    voteUp: (voteID) => dispatch(voteUpPost(voteID)),
-    voteDown: (voteID) => dispatch(voteDownPost(voteID)),
+    voteUp: (currentUser, voteID) => dispatch(submitPostVote(currentUser, voteID, 'upVote')),
+    voteDown: (currentUser, voteID) => dispatch(submitPostVote(currentUser, voteID, 'downVote')),
   };
 };
 

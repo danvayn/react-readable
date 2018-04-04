@@ -5,6 +5,11 @@ import {
   RECEIVE_POST_SUCCESS,
   REQUEST_POSTS,
   REQUEST_POST,
+  UPDATE_POST,
+  DELETE_POST_FAIL,
+  DELETE_POST_SUCCESS,
+  POST_SEND_SUCCESS,
+  POST_END_FAIL
 } from '../actions/post'
 import {
   UPVOTE_POST,
@@ -23,7 +28,7 @@ const initialState = {
   postStatus: {
     error: false,
     loading: true,
-    selectedSort: '',
+    order: 'highest',
   },
 };
 
@@ -33,6 +38,7 @@ const post = (state = initialState, action) => {
       return {
         ...state,
         postStatus: {
+          ...state.postStatus,
           error: false,
           loading: true,
         },
@@ -46,13 +52,14 @@ const post = (state = initialState, action) => {
           },
         }
     case RECEIVE_POSTS_SUCCESS:
+    console.log(sortArray({contents: [...action.posts], order: state.postStatus.order}));
       return {
         ...state,
-        list: action.posts,
+        list: sortArray({contents: [...action.posts], order: state.postStatus.order}),
         postStatus: {
           error: false,
           loading: false,
-          selectedSort: 'highest',
+          order: 'highest',
         },
       }
     case RECEIVE_POSTS_FAILURE:
@@ -62,6 +69,27 @@ const post = (state = initialState, action) => {
           error: true,
           loading: false,
         },
+      }
+    case POST_SEND_SUCCESS:
+      return {
+        ...state,
+        list: sortArray({contents: [...state.list, action.post], order: state.postStatus.order}),
+      }
+    case UPDATE_POST:
+      const indexOf = state.list.findIndex((post) => (post.id === action.response.id))
+      state.list[indexOf] = action.response
+      return {
+        ...state,
+        list:  [...state.list]
+      }
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter(post => post.id !== action.post_id),
+        commentStatus: {
+          error: false,
+          loading: false
+        }
       }
     case UPVOTE_POST:
       return {
@@ -75,21 +103,25 @@ const post = (state = initialState, action) => {
       return {
         ...state,
         list: sortArray({contents: [...state.list], order: 'newest'}),
+        commentStatus: {order: 'newest'}
       }
     case SORT_POSTS_BY_OLD:
       return {
         ...state,
         list: sortArray({contents: [...state.list], order: 'oldest'}),
+        commentStatus: {order: 'oldest'}
       }
     case SORT_POSTS_BY_HIGHEST_VOTE:
       return {
         ...state,
         list: sortArray({contents: [...state.list], order: 'highest'}),
+        commentStatus: {order: 'highest'}
       }
     case SORT_POSTS_BY_LOWEST_VOTE:
       return {
         ...state,
         list: sortArray({contents: [...state.list], order: 'lowest'}),
+        commentStatus: {order: 'lowest'}
       }
     default:
       return state;

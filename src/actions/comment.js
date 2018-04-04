@@ -15,7 +15,7 @@ export const REPLY_SEND_FAIL = 'REPLY_SEND_FAIL';
 export const DELETE_COMMENT_FAIL = 'COMMENT_DELETE_SUCCESSFUL'
 export const DELETE_COMMENT_SUCCESS = 'COMMENT_DELETE_SUCCESSFUL'
 export const EDIT_COMMENT_FAIL = 'EDIT_COMMENT_FAIL';
-export const EDIT_COMMENT_SUCCESS = 'EDIT_COMMENT_SUCCESS';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT_SUCCESS';
 
 export const fetchComments = (post_id) => dispatch => {
   getComments(post_id)
@@ -88,12 +88,12 @@ export const errorSubmittingReply = (error) => ({
 
 export const editReply = (reply) => dispatch => {
   editComment(reply)
-    .then((response) => dispatch(commentEditSuccessful(response)))
+    .then((response) => dispatch(updateComment(response)))
     .catch(error => dispatch(errorEditingComment(error)));
 }
 
-export const commentEditSuccessful = (response) => ({
-  type: EDIT_COMMENT_SUCCESS,
+export const updateComment = (response) => ({
+  type: UPDATE_COMMENT,
   response: response
 });
 

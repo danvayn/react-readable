@@ -9,7 +9,7 @@ import Modal from '../modal'
 const Bottom = (props) => {
   const catDisplay = () => {
     if(props.current) {
-      return (<NavLink to={'/r/'+ props.current}>
+      return (<NavLink to={'/'+ props.current}>
       {props.current}
     </NavLink>)
     } else {

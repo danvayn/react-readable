@@ -5,7 +5,7 @@ export function timeConverter(UNIX_timestamp){
   var month = months[a.getMonth()];
   var date = a.getDate();
   var hour = a.getHours();
-  hour = (hour>10) ? hour : ('0'+min)
+  hour = (hour>10) ? hour : ('0'+hour)
   var min = a.getMinutes();
   min = (min>10) ? min : ('0'+min)
   var sec = a.getSeconds();

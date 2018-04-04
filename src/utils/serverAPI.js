@@ -68,6 +68,28 @@ export const postPost = (post) =>
   }).then(res => res.json())
     .then(data => data);
 
+
+export const sendCommentVote = (props) =>
+  fetch(`${api}/comments/${props.voteID}`, {
+    body: JSON.stringify({option: props.voteDirection}),
+    method: 'POST',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
+
+
+export const sendPostVote = (props) =>
+  fetch(`${api}/posts/${props.voteID}`, {
+    body: JSON.stringify({option: props.voteDirection}),
+    method: 'POST',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
+
 //DELETE Commands (removing)
 
 export const deleteComment = (comment_id) =>
@@ -79,6 +101,14 @@ export const deleteComment = (comment_id) =>
   }).then(res => res.json())
     .then(data => data);
 
+export const deletePost = (post_id) =>
+  fetch(`${api}/posts/${post_id}`, {
+    method: 'DELETE',
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);
 //EDIT COMMANDS (patch)
 
 export const editComment = (comment) =>

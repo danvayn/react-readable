@@ -33,7 +33,7 @@ class ListedPost extends Component {
       </span>
       </Row>
       <Row>
-      <NavLink to={"/post/" + post.id}>
+      <NavLink to={'/'+post.category+ '/' + post.id}>
         {post.commentCount} comments
       </NavLink>
     </Row>

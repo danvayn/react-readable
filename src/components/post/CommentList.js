@@ -6,7 +6,7 @@ import Modal from '../modal'
 // import { NavLink } from 'react-router-dom';
 import VotePanel from '../../components/votePanel'
 import { connect } from 'react-redux';
-import { voteDownComment, voteUpComment } from '../../actions/vote'
+import { submitCommentVote } from '../../actions/vote'
 import { deleteReply, editReply } from '../../actions/comment'
 import { Button, Row } from 'react-bootstrap';
 import ListedComment from './listedComment'
@@ -60,7 +60,9 @@ componentDidUpdate(prevProps,prevState, snapshot) {
                 voteScore={comment.voteScore}
                 voteUp={voteUp}
                 voteDown={voteDown}
-                voteID={comment.id}/>
+                voteID={comment.id}
+                currentUser={userName}
+                />
             <div style={listedStyle}>
 
               <Row>
@@ -96,8 +98,8 @@ componentDidUpdate(prevProps,prevState, snapshot) {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    voteUp: (voteID) => dispatch(voteUpComment(voteID)),
-    voteDown: (voteID) => dispatch(voteDownComment(voteID)),
+    voteUp: (currentUser, voteID) => dispatch(submitCommentVote(currentUser, voteID, 'upVote')),
+    voteDown: (currentUser, voteID) => dispatch(submitCommentVote(currentUser, voteID, 'downVote')),
     deleteComment: (comment_id) => dispatch(deleteReply(comment_id)),
     submitEdit: (form) => dispatch(editReply({
       comment_id: form.relatedId,

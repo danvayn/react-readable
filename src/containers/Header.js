@@ -16,6 +16,7 @@ return (
             categories={categories}
           />
           <div className="pull-right">
+              <span>Current user: {currentUser}</span>
               <Modal
                 onSubmit={changeUser}
                 displayText={"Change user"}

@@ -2,6 +2,8 @@ import sortBy from 'sort-by'
 
 export const sortArray = ({contents, order}) => {
   const newArray = contents;
+  console.log("XXX");
+  console.log(contents, order);
   if(contents && contents.length > 0) {
     switch(order) {
       case 'highest':
