@@ -31,7 +31,7 @@ class ListOfPosts extends Component {
                 voteUp={voteUp}
                 voteDown={voteDown}
                 voteID={post.id}/>
-              <ListedPost className="pull-right" post={post}>
+              <ListedPost className="pull-right" name={this.props.userName} post={post}>
                 {
                 //https://codeburst.io/a-quick-intro-to-reacts-props-children-cb3d2fce4891
                 //add delete button here

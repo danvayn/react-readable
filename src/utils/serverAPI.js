@@ -120,3 +120,12 @@ export const editComment = (comment) =>
     },
   }).then(res => res.json())
     .then(data => data);
+export const editPost = (post) =>
+  fetch(`${api}/posts/${post.post_id}`, {
+    method: 'PUT',
+      body: JSON.stringify({body: post.body}),
+    headers: {
+      ...headers,
+    },
+  }).then(res => res.json())
+    .then(data => data);

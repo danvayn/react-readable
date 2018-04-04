@@ -55,7 +55,7 @@ class oneFieldModal extends React.Component {
           <Modal.Body>
             <form onSubmit={() => this.handleSubmit()}>
               <FormGroup controlId="formControlsTextarea">
-                <FormControl componentClass="textarea" placeholder={this.props.placeholder || ""} value={this.state.value} onChange={(event) => this.handleChange(event)}/>
+                <FormControl componentClass="textarea" placeholder={this.props.placeholder || ""} value={this.props.startingValue} onChange={(event) => this.handleChange(event)}/>
               </FormGroup>
             </form>
           </Modal.Body>

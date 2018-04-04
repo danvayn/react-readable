@@ -27,16 +27,13 @@ class PostPage extends Component {
       <Row>{'Why dont you try submitting to '+post.category+'?'}</Row>
       </div>
     )
-    if(Object.keys(post).length == 0 && post.constructor === Object) {
-      return (<Redirect to="/"/>)
-    } else {
     return (
       <div className="page post-page">
         <Header showSort={false} currentCategory={post.category}/>
         <Grid>
           <Row>
             <Col xs={12} md={8}>
-              <PostHeader post={post}/>
+              <PostHeader username={this.props.userName} post={post}/>
               <CommentSort/>
               <CommentList comments={this.props.comments}/>
             </Col>
@@ -51,14 +48,14 @@ class PostPage extends Component {
     )
   }
 }
-}
 
  const mapStateToProps = (state, ownProps) => {
    const post_id = ownProps.match.params.postID;
    const post = state.posts.list.filter(post => post.id === post_id);
    return {
+     userName: state.user.username,
      post_id: post_id,
-     post: post[0] || {},
+     post: post[0] || false,
      comments: state.comments.list || [],
      order: state.comments.commentStatus.order,
    }

@@ -85,6 +85,7 @@ componentDidUpdate(prevProps,prevState, snapshot) {
                       displayText={"Edit this post"}
                       title={"Edit post"}
                       placeholder={comment.body}
+                      startingValue={comment.body}
                     />
                 </Row>
               )}

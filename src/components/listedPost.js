@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
 import { NavLink } from 'react-router-dom';
-import { ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import Modal from './modal';
+
+import { Row, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
+import { submitEditPost, deleteYourPost } from '../actions/post'
 import { timeConverter } from '../utils/misc'
+
 class ListedPost extends Component {
   constructor(props){
     super(props);
@@ -11,7 +15,7 @@ class ListedPost extends Component {
     }
   }
   render(){
-  const post = this.props.post;
+  const {post, submitPostEdit, deleteYourPost} = this.props;
   const listedStyle = {
     display: "inline-block",
     marginLeft: "25px",
@@ -21,7 +25,7 @@ class ListedPost extends Component {
   return (
     <div style={listedStyle}>
       <Row>
-        <NavLink to={"/post/" + post.id}>
+        <NavLink to={"/"+post.category+'/'+ post.id}>
           <h4 className="list-group-item-heading" style={{display: "inline"}}>{post.title}</h4>
         </NavLink>
       </Row>
@@ -36,10 +40,47 @@ class ListedPost extends Component {
       <NavLink to={'/'+post.category+ '/' + post.id}>
         {post.commentCount} comments
       </NavLink>
+      { post.author === this.props.userName && (
+        <div className="author-links">
+        <span
+          onClick={() => {
+            if(window.confirm('Delete this post')){
+              deleteYourPost(post.id)}
+              this.setState({ fireRedirect: true })
+            }
+          }>
+          Delete Post
+        </span>
+
+          <Modal
+            relatedId={post.id}
+            onSubmit={submitPostEdit}
+            displayText={"Edit this post"}
+            title={"Edit post. You must resubmit to retitle."}
+            placeholder={post.body}
+          />
+        </div>
+      )
+      }
     </Row>
     </div>
   )
 }
 }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    userName: state.user.username
+  }
+}
 
-export default ListedPost
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    deleteYourPost: (post_id) => dispatch(deleteYourPost(post_id)),
+    submitPostEdit: (form) => dispatch(submitEditPost({
+      post_id: form.relatedId,
+      body: form.body,
+    })),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListedPost);

@@ -1,4 +1,9 @@
-import { getPosts, getPost, postPost, deletePost } from '../utils/serverAPI';
+import {
+  getPosts,
+  getPost,
+  postPost,
+  editPost,
+  deletePost } from '../utils/serverAPI';
 //constants
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const REQUEST_POST = 'REQUEST_POST'
@@ -11,6 +16,7 @@ export const POST_SEND_FAIL = 'POST_SEND_FAIL'
 export const DELETE_POST_SUCCESS = 'POST_DELETE_SUCCESS'
 export const DELETE_POST_FAIL = 'POST_DELETE_FAIL'
 export const UPDATE_POST = 'UPDATE_POST'
+export const UPDATE_POST_FAIL = 'UPDATE_POST'
 
 function requestPosts(category = null) {
   // getCategory = category || 'all'
@@ -101,6 +107,11 @@ export const updatePost = (response) => ({
   response: response
 });
 
+export const submitEditPost = (post) => dispatch => {
+  editPost(post)
+    .then((response) => dispatch(updatePost(response)))
+    .catch(error => dispatch(errorUpdatingPost(error)));
+}
 
 export const deleteYourPost = (post_id) => dispatch => {
   deletePost(post_id)
@@ -111,6 +122,10 @@ export const deleteYourPost = (post_id) => dispatch => {
 export const postDeleteSuccessful = (post_id) => ({
   type: DELETE_POST_SUCCESS,
   post_id: post_id
+})
+export const errorUpdatingPost = (error) => ({
+  type: UPDATE_POST_FAIL,
+  error: error
 })
 export const errorDeletingPost = (error) => ({
   type: DELETE_POST_FAIL,
