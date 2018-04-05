@@ -4,7 +4,6 @@ import categories from './category'
 import comments from './comment'
 import user from './user'
 
-
 export default combineReducers({
   posts,
   comments,

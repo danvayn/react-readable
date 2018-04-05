@@ -11,12 +11,11 @@ import { submitEditPost, deleteYourPost } from '../../actions/post'
 import { browserHistory } from 'react-router'
 
 class PostHeader extends Component {
-    constructor (props) {
-      super(props);
+    constructor () {
+      super();
       this.state = {
         fireRedirect: false
       }
-      console.log(this.state)
   }
   render() {
     const {voteUp, voteDown, submitReplyEdit, submitPostEdit, deleteYourPost, submitReply, post} = this.props

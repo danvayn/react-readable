@@ -14,7 +14,7 @@ const categoryBar = ({categories}) => {
            <span key={index} className="category-listing">
 
             <span>{categoryLength < index ? '' : ' - '}</span>
-           <NavLink className="inline" key={index} to={`/${category.path}/`}>
+           <NavLink activeClassName="selected" className="inline" key={index} to={`/${category.path}/`}>
                  {category.name}
                </NavLink>
             </span>

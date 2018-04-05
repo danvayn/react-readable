@@ -1,7 +1,5 @@
 import {
   UPDATE_USER,
-} from '../actions/user';
-import {
   REMEMBER_VOTE,
 } from '../actions/vote'
 
@@ -9,6 +7,7 @@ const initialState = {
   username: "bobby",
   votes: [],
 };
+
 const user = (state = initialState, action) => {
   switch(action.type) {
     case UPDATE_USER:
@@ -32,6 +31,5 @@ const user = (state = initialState, action) => {
       return state;
   }
 };
-
 
 export default user;

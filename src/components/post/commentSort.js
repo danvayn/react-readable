@@ -67,13 +67,6 @@ CommentSort.propTypes = {
   sortByOldest: PropTypes.func.isRequired,
 };
 
-// const mapStateToProps = state => ({
-//   highlightTabNewest: state.post.sortPosts.newest,
-//   highlightTabOldest: state.post.sortPosts.oldest,
-//   highlightTabLowest: state.post.sortPosts.lowest,
-//   highlightTabHighest: state.post.sortPosts.highest,
-// });
-
 const mapDispatchToProps = dispatch => ({
   sortByNewest: () => {
     dispatch(sortCommentsByNew());

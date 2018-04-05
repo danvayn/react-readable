@@ -10,7 +10,6 @@ import { Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { fetchCommentsIfNeeded } from '../actions/comment';
-import { fetchPost } from '../actions/post';
 
 class PostPage extends Component {
   static propTypes = {
@@ -30,7 +29,7 @@ class PostPage extends Component {
     return (
       <div className="page post-page">
         <Header showSort={false} currentCategory={post.category}/>
-        <Grid>
+        <Grid className="content-container">
           <Row>
             <Col xs={12} md={8}>
               <PostHeader username={this.props.userName} post={post}/>
@@ -63,7 +62,6 @@ class PostPage extends Component {
 
  const mapDispatchToProps = (dispatch, ownProps) => {
    return {
-     getPost: (post_id) => dispatch(fetchPost(post_id)),
      getComments: (post_id) => dispatch(fetchCommentsIfNeeded(post_id)),
  }
 }

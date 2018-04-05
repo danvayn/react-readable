@@ -18,14 +18,12 @@ const Bottom = (props) => {
   }
   return (
     <Row className="header-bottom">
-      <Col xsHidden md={3} >
-        <img src={logo} height="100px"/>
-        {/* <NavLink to={current ? '/r/'+current: current}>
-      </NavLink>*/}
+      <Col xsHidden sm={3} md={2} >
+        <img src={logo} height="50px"/>
         {catDisplay()}
       </Col>
       {props.showSort &&
-        <Col xs={12} md={5}>
+        <Col xs={12} sm={9} md={10}>
           <PostSort/>
         </Col>
       }

@@ -2,11 +2,11 @@ import { sendPostVote, sendCommentVote } from '../utils/serverAPI';
 import { updateComment } from './comment'
 import { updatePost } from './post'
 
-// export const persistVotePost = (id, voteDirection, voteType) => (dispatch) => {
-//   persistVote(id, voteDirection, voteType)
-//     .then(data => dispatch(votePostSuccess(data)))
-//     .catch(error => dispatch(failedVote(error)));
-// };
+export const UPDATE_USER = "UPDATE_USER"
+export const updateUser = (name) => ({
+  type: UPDATE_USER,
+  name: name
+});
 
 export const UPVOTE_POST = 'UPVOTE_POST'
 export const DOWNVOTE_POST = 'DOWNVOTE_POST'

@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import { NavLink } from 'react-router-dom';
-import { FormGroup, ControlLabel, FormControl, Row, Popover, Tooltip, Button, Modal, OverlayTrigger } from 'react-bootstrap';
+import { FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-class oneFieldModal extends React.Component {
+class oneFieldModal extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {value: ''};
@@ -37,13 +36,6 @@ class oneFieldModal extends React.Component {
   }
 
   render() {
-    const popover = (
-      <Popover id="modal-popover" title="popover">
-        very popover. such engagement
-      </Popover>
-    );
-    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
     return (
       <div>
         <a href="#show" onClick={this.handleShow}>{this.props.displayText}</a>
@@ -74,10 +66,5 @@ const mapStateToProps = (state, ownProps) => {
     userName: state.user.username
     }
   }
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-  };
-};
 
 export default connect(mapStateToProps, null)(oneFieldModal);

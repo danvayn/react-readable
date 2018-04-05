@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 import { submitCommentVote } from '../../actions/vote'
 import { deleteReply, editReply } from '../../actions/comment'
 import { Button, Row } from 'react-bootstrap';
-import ListedComment from './listedComment'
-import { sortArray } from '../../utils/sort';
 import { timeConverter } from '../../utils/misc'
 
 class ListOfComments extends Component {
@@ -18,23 +16,25 @@ class ListOfComments extends Component {
     super(props)
     this.handleDelete = this.handleDelete.bind(this);
     this.state = { comments: [] }
-}
+  }
 
-componentDidMount(){
+  componentDidMount(){
     this.setState({comments: this.props.comments})
-}
-componentDidUpdate(prevProps,prevState, snapshot) {
-  let oldComments = prevProps.comments
-  let newComments = this.props.comments
- if (oldComments !== newComments) {
-  this.setState({comments: newComments})
-}
-}
+  }
+  componentDidUpdate(prevProps,prevState, snapshot) {
+    const oldComments = prevProps.comments
+    const newComments = this.props.comments
+    if (oldComments !== newComments) {
+      this.setState({comments: newComments})
+    }
+  }
+
   static propTypes = {
     comments: PropTypes.array,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
+
   handleDelete(comment_id){
     this.props.deleteComment(comment_id);
     this.setState({comments: this.state.comments.filter(comment => comment.id !== comment_id)})
@@ -74,16 +74,16 @@ componentDidUpdate(prevProps,prevState, snapshot) {
               { comment.author === userName && (
                 <Row>
                   <Button
-                    onClick={() => {if(window.confirm('Delete this post')){this.handleDelete(comment.id)}}}
+                    onClick={() => {if(window.confirm('Delete this comment')){this.handleDelete(comment.id)}}}
                     bsStyle="danger">
-                    Delete Post
+                    Delete Comment
                   </Button>
 
                     <Modal
                       relatedId={comment.id}
                       onSubmit={submitEdit}
-                      displayText={"Edit this post"}
-                      title={"Edit post"}
+                      displayText={"Edit this comment"}
+                      title={"Edit comment"}
                       placeholder={comment.body}
                       startingValue={comment.body}
                     />
@@ -116,31 +116,3 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListOfComments);
-
-// const ListOfPosts = ({posts, postStatus}) => {
-//   if(postStatus.loading === false && postStatus.error === false) {
-//     return (
-//       <div>
-//         <ListGroup className="post-list">
-//
-//           { posts.map((post,index) =>
-//             <ListGroupItem to="/"
-//                           className="post" key={post.id} href={`/${post.path}`}>
-//                           {post.title}
-//                         </ListGroupItem>
-//                       )}
-//         </ListGroup>
-//       </div>
-//     )
-//   } else {
-//     return (<div>loading or error...</div>);
-//   }
-// }
-//
-// ListOfPosts.propTypes = {
-//   posts: PropTypes.array.isRequired,
-//   postStatus: PropTypes.shape({
-//     loading: PropTypes.boolean,
-//     error: PropTypes.boolean,
-//   }).isRequired,
-// };

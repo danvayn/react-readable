@@ -46,12 +46,7 @@ export function fetchCommentsIfNeeded(post_id){
 
 function shouldFetchComments(state, post_id) {
   const comments = state.comments
-  // if (comments && comments.commentStatus.loading) {
-    // return false
-  // }
-  // else {
     return true
-  // }
 }
 
 export const deleteReply = (comment_id) => dispatch => {

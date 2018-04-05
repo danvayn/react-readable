@@ -3,7 +3,7 @@ import { Grid, Row } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 
 const NoMatch = ({ location }) => (
-  <Grid>
+  <Grid className="content-container">
     <Row>
     <h3>
       No match for <code>{location.pathname}</code>

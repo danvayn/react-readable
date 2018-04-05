@@ -1,28 +1,20 @@
 import React from 'react';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Panel } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-//notes: this is not really a container, extract the view to components
-
 const Sidebar = ({category, children}) => {
-  console.log(category)
   const button = category ? (
-    //note: i know this is a little weird but this is incase i wanted to disable the button
-
-      <LinkContainer to={'/'+category + "/submit/"}>
-    <Button bsStyle="primary">Submit post to {category}</Button>
-
+    <LinkContainer to={'/'+category + "/submit/"}>
+      <Button bsStyle="primary">Submit post to {category}</Button>
+    </LinkContainer>) : (
+    <LinkContainer to={"/submit/"}>
+      <Button bsStyle="primary">Submit post</Button>
     </LinkContainer>
-  ) : (
-  <LinkContainer to={"/submit/"}>
-    <Button bsStyle="primary">Submit post</Button>
-  </LinkContainer>
   )
 
  return (
-   <Panel className="sidebar" defaultExpanded>
+   <Panel id="sidebar" defaultExpanded>
      <Panel.Heading>
        <Panel.Title>
          {button}

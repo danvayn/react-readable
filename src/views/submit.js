@@ -10,14 +10,16 @@ import { submitPost } from '../actions/post'
 
  const SubmitPostContainer = ({category, submitPost}) => {
    const formTitle = category ? (
-     <h1 className="primary">Submit post to {category}</h1>
-   ) : <h1 className="primary">Submit post</h1>
+     <h2 className="primary">Submit post to {category}</h2>
+   ) : <h2 className="primary">Submit post</h2>
    return(
-     <Grid>
-       <Header showSort={false} currentCategory={category}/>
+     <div>
+     <Header showSort={false} currentCategory={category}/>
+     <Grid className="content-container" fluid>
        {formTitle}
        <PostSubmit setCategory={category} onSubmit={submitPost}/>
      </Grid>
+   </div>
    )
  }
 

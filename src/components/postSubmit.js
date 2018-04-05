@@ -43,7 +43,6 @@ class PostSubmitForm extends Component {
     if(prevProps.categories !== this.props.categories){
     this.setState({ categories: [{name: 'select an option...'},...this.props.categories] })
     }
-    console.log(this.state)
   }
 
   handleSubmit() {
@@ -109,17 +108,14 @@ class PostSubmitForm extends Component {
     switch(fieldName) {
       case 'category':
         const foundCat = this.props.categories.find(c => c.name === value)
-        console.log("category valid?", foundCat)
         categoryValid = (value.length > 1 && typeof foundCat !== 'undefined')
         fieldValidationErrors.category = categoryValid ? '' : 'Choose a category';
         break;
       case 'title':
-        console.log("title valid?", value)
         titleValid = value.length >= 10;
         fieldValidationErrors.title = titleValid ? '': 'It is too short';
         break;
       case 'body':
-        console.log("body valid?", value)
         bodyValid = value.length >= 20;
         fieldValidationErrors.body = bodyValid ? '': 'It needs more words';
         break;

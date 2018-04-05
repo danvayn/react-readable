@@ -11,7 +11,7 @@ const RootPage = ({posts, content}) => {
  return (
    <div className="page root-page">
      <Header showSort={true}/>
-     <Grid>
+     <Grid fluid className="content-container">
        <Row>
          <Col xs={12} md={8}>
          <PostList posts={posts}/>

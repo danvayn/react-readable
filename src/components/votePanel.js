@@ -29,8 +29,6 @@ class votePanel extends Component {
   }
   handleVote(status='', direction){
     const { currentUser, voteID } = this.props;
-    console.log(this.props);
-    console.log("XXX-"+status);
     if(direction === 'up' && status === '') {
       this.props.voteUp(currentUser, voteID);
       this.setState({status: 'upVote'})
@@ -52,8 +50,6 @@ class votePanel extends Component {
       this.props.voteDown(currentUser, voteID);
       this.setState({status: 'downVote'})
     }
-
-    // this.setState({comments: this.state.comments.filter(comment => comment.id !== comment_id)})
   }
 
   render() {
@@ -88,19 +84,11 @@ class votePanel extends Component {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps, state)
   return {
     currentUser: state.user.username,
     voteStatus: state.user.votes[ownProps.voteID] || {}
   }
 }
-
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//   return {
-//     getPost: (post_id) => dispatch(fetchPost(post_id)),
-//     getComments: (post_id) => dispatch(fetchCommentsIfNeeded(post_id)),
-// }
-// }
 
 
 export default connect(mapStateToProps, null)(votePanel);

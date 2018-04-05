@@ -52,7 +52,6 @@ const post = (state = initialState, action) => {
           },
         }
     case RECEIVE_POSTS_SUCCESS:
-    console.log(sortArray({contents: [...action.posts], order: state.postStatus.order}));
       return {
         ...state,
         list: sortArray({contents: [...action.posts], order: state.postStatus.order}),

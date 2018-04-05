@@ -40,20 +40,19 @@ class PostSort extends Component {
 
   render() {
     return (
-      <div className="sort-tabs">
-        Sort by
+      <div style={{position:'relative', height:'50px'}}className="sort-tabs">
       <Tabs
         activeKey={this.state.key}
         onSelect={this.handleSelect}
-        id="controlled-tab-example"
+        id="post-sort-tabs"
       >
-        <Tab eventKey={1} title="Upvotes">
+        <Tab eventKey={1} title="top">
         </Tab>
-        <Tab eventKey={2} title="Downvotes">
+        <Tab eventKey={2} title="bottom">
         </Tab>
-        <Tab eventKey={3} title="Newest">
+        <Tab eventKey={3} title="new">
         </Tab>
-        <Tab eventKey={4} title="Oldest">
+        <Tab eventKey={4} title="old">
         </Tab>
       </Tabs>
     </div>
@@ -67,13 +66,6 @@ PostSort.propTypes = {
   sortByNewest: PropTypes.func.isRequired,
   sortByOldest: PropTypes.func.isRequired,
 };
-
-// const mapStateToProps = state => ({
-//   highlightTabNewest: state.post.sortPosts.newest,
-//   highlightTabOldest: state.post.sortPosts.oldest,
-//   highlightTabLowest: state.post.sortPosts.lowest,
-//   highlightTabHighest: state.post.sortPosts.highest,
-// });
 
 const mapDispatchToProps = dispatch => ({
   sortByNewest: () => {

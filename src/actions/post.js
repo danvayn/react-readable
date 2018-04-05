@@ -19,14 +19,12 @@ export const UPDATE_POST = 'UPDATE_POST'
 export const UPDATE_POST_FAIL = 'UPDATE_POST'
 
 function requestPosts(category = null) {
-  // getCategory = category || 'all'
   return {
     type: REQUEST_POSTS
   }
 }
 
 function requestPost(post_id) {
-  // getCategory = category || 'all'
   return {
     post_id: post_id,
     type: REQUEST_POST
@@ -54,17 +52,6 @@ export function fetchPosts() {
         dispatch(receivePosts(posts));
       })
       .catch(error => dispatch(errorReceivingPosts(error)));
-    }
-}
-
-export function fetchPost(post_id) {
-  return dispatch => {
-    dispatch(requestPost(post_id))
-    return getPost(post_id)
-      .then(post => {
-        dispatch(receivePosts(post));
-      })
-      .catch(error => dispatch(errorReceivingPost(error)));
     }
 }
 

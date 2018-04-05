@@ -11,7 +11,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
  const CategoryPageContainer = ({category, posts}) => {
    const genericBody = (
-     <div className="zeroMargin">
+     <div>
      <Row>{category+' is a subreddit on readable.'}</Row>
      <Row>{category+' is great.'}</Row>
      <Row>{'Dont you love visiting /r/'+category+'?'}</Row>
@@ -23,7 +23,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
       <Header showSort={true} currentCategory={category}/>
 
-        <Grid>
+        <Grid fluid className="content-container">
           <Row>
             <Col xs={12} md={8}>
             <PostList posts={posts}/>
