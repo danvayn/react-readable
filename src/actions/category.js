@@ -2,7 +2,11 @@ import { getCategories } from '../utils/serverAPI';
 
 export const CATEGORY_RECEIVE_SUCCESS = 'CATEGORY_RECEIVE_SUCCESS';
 export const CATEGORY_RECEIVE_FAIL = 'CATEGORY_RECEIVE_FAIL';
-export const CATEGORY_VISIT = 'CATEGORY_VISITED';
+
+export const fetchCategories = () => dispatch =>
+  getCategories()
+    .then(categories => dispatch(receiveCategories(categories)))
+    .catch(error => dispatch(errorReceivingCategories(error)));
 
 export const receiveCategories = categories => ({
   type: CATEGORY_RECEIVE_SUCCESS,
@@ -11,14 +15,4 @@ export const receiveCategories = categories => ({
 
 export const errorReceivingCategories = () => ({
   type: CATEGORY_RECEIVE_FAIL,
-});
-
-export const fetchCategories = () => dispatch =>
-  getCategories()
-    .then(categories => dispatch(receiveCategories(categories)))
-    .catch(error => dispatch(errorReceivingCategories(error)));
-
-export const visitCategory = category => ({
-  type: CATEGORY_VISIT,
-  viewingCategory: category
 });

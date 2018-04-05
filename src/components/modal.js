@@ -23,7 +23,8 @@ class oneFieldModal extends Component {
   handleShow() {
     this.setState({ show: true });
   }
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     this.props.onSubmit({
       relatedId: (this.props.relatedId || ''),
       body: this.state.value,
@@ -47,7 +48,11 @@ class oneFieldModal extends Component {
           <Modal.Body>
             <form onSubmit={() => this.handleSubmit()}>
               <FormGroup controlId="formControlsTextarea">
-                <FormControl componentClass="textarea" placeholder={this.props.placeholder || ""} value={this.props.startingValue} onChange={(event) => this.handleChange(event)}/>
+                <FormControl componentClass="textarea"
+                  placeholder={this.props.placeholder || ""}
+                  value={this.props.startingValue}
+                  onChange={(event) => this.handleChange(event)}
+                />
               </FormGroup>
             </form>
           </Modal.Body>
@@ -61,9 +66,9 @@ class oneFieldModal extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    userName: state.user.username
+    userName: state.users.username
     }
   }
 

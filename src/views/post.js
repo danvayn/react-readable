@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Redirect} from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import CommentSort from '../components/post/commentSort'
 import CommentList from '../components/post/CommentList'
 import PostHeader from '../components/post/Header'
 import Header from '../containers/Header'
 import Sidebar from '../components/Sidebar'
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Redirect} from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { fetchCommentsIfNeeded } from '../actions/comment';
 
@@ -52,7 +53,7 @@ class PostPage extends Component {
    const post_id = ownProps.match.params.postID;
    const post = state.posts.list.filter(post => post.id === post_id);
    return {
-     userName: state.user.username,
+     userName: state.users.username,
      post_id: post_id,
      post: post[0] || false,
      comments: state.comments.list || [],
@@ -60,7 +61,7 @@ class PostPage extends Component {
    }
  }
 
- const mapDispatchToProps = (dispatch, ownProps) => {
+ const mapDispatchToProps = (dispatch) => {
    return {
      getComments: (post_id) => dispatch(fetchCommentsIfNeeded(post_id)),
  }

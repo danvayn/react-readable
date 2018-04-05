@@ -4,11 +4,10 @@ import {
   REPLY_SEND_SUCCESS,
   REPLY_SEND_FAIL,
   LOADING_COMMENTS,
-  DESTROY_COMMENTS,
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_FAIL,
   EDIT_COMMENT_FAIL,
-  UPDATE_COMMENT,
+  UPDATE_COMMENT_SUCCESS,
 } from '../actions/comment';
 
 import {
@@ -18,12 +17,10 @@ import {
   SORT_COMMENTS_BY_OLD,
 } from '../actions/sort'
 
-
 import {
   UPVOTE_COMMENT,
   DOWNVOTE_COMMENT,
 } from '../actions/vote'
-
 
 import { sortArray } from '../utils/sort';
 
@@ -68,15 +65,6 @@ const comments = (state = initialState, action) => {
           loading: false
         }
       }
-    case DESTROY_COMMENTS:
-      return {
-        ...state,
-        list: [],
-        commentStatus: {
-          error: false,
-          loading: false
-        }
-      }
 
     case DELETE_COMMENT_SUCCESS:
       return {
@@ -95,7 +83,7 @@ const comments = (state = initialState, action) => {
           loading: false
         }
       }
-      case UPDATE_COMMENT:
+      case UPDATE_COMMENT_SUCCESS:
         const indexOf = state.list.findIndex((comment) => (comment.id === action.response.id))
         state.list[indexOf] = action.response
         return {

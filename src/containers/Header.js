@@ -1,10 +1,12 @@
-import CategoryBar from '../components/header/categoryBar';
-import HeaderBottom from '../components/header/Bottom';
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import CategoryBar from '../components/header/categoryBar';
+import HeaderBottom from '../components/header/Bottom';
 import Modal from '../components/modal'
-import {updateUser} from '../actions/vote'
+
+import { updateUser } from '../actions/vote'
 
 
 const HeaderBar = ({currentUser,changeUser, categories, currentCategory, showSort}) => {
@@ -35,7 +37,7 @@ return (
   )
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     changeUser: (form) => dispatch(updateUser(form.body)),
   }
@@ -46,7 +48,7 @@ const mapStateToProps = (state, ownProps) => {
     categories: state.categories.list,
     currentCategory: ownProps.currentCategory || '',
     showSort: ownProps.showSort,
-    currentUser: state.user.username
+    currentUser: state.users.username
   }
 }
 let Header = connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(HeaderBar)

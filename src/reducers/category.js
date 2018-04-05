@@ -4,13 +4,13 @@ import {
 } from '../actions/category';
 
 const initialState = {
+  list: [],
   categoryStatus: {
     error: false,
     loading: true,
   },
-  list: [
-  ],
 };
+
 const category = (state = initialState, action) => {
   const categoriesAction = action.categories
   switch(action.type) {

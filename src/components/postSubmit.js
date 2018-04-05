@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Form, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
-import FormErrors from './FormErrors'
-import { submitPost } from '../actions/post'
 import {Redirect} from 'react-router-dom';
+import { Form, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
+import FormErrors from './FormErrors'
+
+import { submitPost } from '../actions/post'
+
+//refactor this for use in the below html
 function FieldGroup({ id, label, help, ...props }) {
   return (
     <FormGroup controlId={id}>
@@ -15,6 +18,7 @@ function FieldGroup({ id, label, help, ...props }) {
     </FormGroup>
   );
 }
+
 class PostSubmitForm extends Component {
   constructor () {
     super();
@@ -41,7 +45,10 @@ class PostSubmitForm extends Component {
   }
   componentDidUpdate(prevProps){
     if(prevProps.categories !== this.props.categories){
-    this.setState({ categories: [{name: 'select an option...'},...this.props.categories] })
+      this.setState({
+        categories: [{name: 'select an option...'},
+          ...this.props.categories]
+      })
     }
   }
 
@@ -64,7 +71,7 @@ class PostSubmitForm extends Component {
 
   render(){
     const {setCategory} = this.props
-    const {category, categories, fireRedirect} = this.state
+    const {categories, fireRedirect} = this.state
 
     const categoryField = setCategory ? (
           <option value={setCategory}>{setCategory}</option>
@@ -133,7 +140,7 @@ class PostSubmitForm extends Component {
     this.setState({formValid: this.state.titleValid && this.state.bodyValid && this.state.categoryValid});
   }
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     submitPost: (form) => dispatch(submitPost({
       title: form.title,
@@ -142,10 +149,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     categories: state.categories.list,
-    name: state.user.username
+    name: state.users.username
   }
 }
 

@@ -9,6 +9,8 @@ import PostList from '../components/PostList'
 import Sidebar from '../components/Sidebar'
 import { Grid, Row, Col } from 'react-bootstrap';
 
+//refactor to be full react component and then componentwillmount if category not found redirect to 404
+
  const CategoryPageContainer = ({category, posts}) => {
    const genericBody = (
      <div>

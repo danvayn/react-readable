@@ -1,24 +1,27 @@
 import React from 'react';
-
-import logo from '../../logo.svg';
 import { NavLink } from 'react-router-dom';
-import { Button, PageHeader, Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import logo from '../../logo.svg';
+
 import PostSort from './postSort'
 import Modal from '../modal'
 
 const Bottom = (props) => {
+
   const catDisplay = () => {
     if(props.current) {
-      return (<NavLink to={'/'+ props.current}>
-      {props.current}
-    </NavLink>)
+      return (
+        <NavLink to={'/'+ props.current}>
+          {props.current}
+        </NavLink>)
     } else {
       return (<NavLink to={'/'}>Readable</NavLink>)
     }
   }
+
   return (
     <Row className="header-bottom">
-      <Col xsHidden sm={3} md={2} >
+      <Col xsHidden sm={3} md={2}>
         <img src={logo} height="50px"/>
         {catDisplay()}
       </Col>

@@ -11,11 +11,21 @@ export function timeConverter(UNIX_timestamp){
   var time = month + ' ' + date + ', ' + year + ' at ' + hour + ':' + min;
   return time;
 }
+
+//get this working juan day
+export const handleRequest = (props) => dispatch => {
+  const request = props.request
+    request(props.payload)
+    .then(response => dispatch(props.onSuccess(response)))
+    .catch(error => dispatch(props.onFail(error)));
+}
+
+
 export const randomID = () => {
   let text = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-    return text
+  return text
 }

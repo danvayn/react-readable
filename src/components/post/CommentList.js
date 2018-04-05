@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
-// import LinkContainer from 'react-router-bootstrap';
-import PropTypes from 'prop-types'
-import Modal from '../modal'
-// import { NavLink } from 'react-router-dom';
-import VotePanel from '../../components/votePanel'
+import { Button, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
+
+import Modal from '../modal'
+import VotePanel from '../../components/votePanel'
+
 import { submitCommentVote } from '../../actions/vote'
 import { deleteReply, editReply } from '../../actions/comment'
-import { Button, Row } from 'react-bootstrap';
 import { timeConverter } from '../../utils/misc'
 
 class ListOfComments extends Component {
@@ -97,7 +96,7 @@ class ListOfComments extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     voteUp: (currentUser, voteID) => dispatch(submitCommentVote(currentUser, voteID, 'upVote')),
     voteDown: (currentUser, voteID) => dispatch(submitCommentVote(currentUser, voteID, 'downVote')),
@@ -108,10 +107,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }))
   };
 };
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     comments: state.comments.list,
-    userName: state.user.username
+    userName: state.users.username
   };
 };
 

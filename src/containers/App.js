@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-import logo from '../logo.svg';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import '../App.css';
+
+import { fetchCategories } from '../actions/category';
+import { fetchPostsIfNeeded } from '../actions/post';
 
 import RootPageView from '../views/root'
 import CategoryRouter from './Category'
 import PostView from '../views/post'
 import SubmitPost from '../views/submit'
-
-import { fetchCategories } from '../actions/category';
-import { fetchPostsIfNeeded } from '../actions/post';
-import Header from '../containers/Header'
 import NoMatch  from '../views/NotFound'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 class App extends Component {
   componentWillMount() {

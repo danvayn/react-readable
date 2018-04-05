@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
-import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 import PropTypes from 'prop-types'
-import VotePanel from '../components/votePanel'
 import { connect } from 'react-redux';
-import { submitPostVote } from '../actions/vote'
+import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+import VotePanel from '../components/votePanel'
 import ListedPost from './listedPost'
+
+import { submitPostVote } from '../actions/vote'
 import { sortArray } from '../utils/sort';
 
 class ListOfPosts extends Component {
@@ -14,6 +16,7 @@ class ListOfPosts extends Component {
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
+
   render() {
     const { voteUp, voteDown, posts, selectedSort } = this.props;
     return (
@@ -38,7 +41,7 @@ class ListOfPosts extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    userName: state.user.username
+    userName: state.users.username
     }
   }
 

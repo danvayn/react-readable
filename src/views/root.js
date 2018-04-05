@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import { Grid, Row, Col } from 'react-bootstrap';
+
 import Header from '../containers/Header'
 import Sidebar from '../components/Sidebar'
 import PostList from '../components/PostList'
-import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { sortArray } from '../utils/sort';
 
 const RootPage = ({posts, content}) => {
  return (

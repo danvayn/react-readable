@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import { Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Tabs, Tab } from 'react-bootstrap';
+
 import { sortPostsByOld,
 sortPostsByNew,
 sortPostsByLowestVote,

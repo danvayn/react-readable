@@ -85,8 +85,8 @@ class votePanel extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentUser: state.user.username,
-    voteStatus: state.user.votes[ownProps.voteID] || {}
+    currentUser: state.users.username,
+    voteStatus: state.users.votes[ownProps.voteID] || {}
   }
 }
 

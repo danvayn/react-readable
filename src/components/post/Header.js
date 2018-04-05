@@ -1,14 +1,16 @@
-import React, {Component} from 'react'
-import { Grid, Panel, Row, Button } from 'react-bootstrap';
+import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import { browserHistory } from 'react-router'
+import { Grid, Panel, Row, Button } from 'react-bootstrap';
+
 import Modal from '../modal'
-import { timeConverter } from '../../utils/misc'
-import { submitReply } from '../../actions/comment'
 import VotePanel from '../votePanel'
+
 import { submitPostVote } from '../../actions/vote'
 import { submitEditPost, deleteYourPost } from '../../actions/post'
-import { browserHistory } from 'react-router'
+import { submitReply } from '../../actions/comment'
+import { timeConverter } from '../../utils/misc'
 
 class PostHeader extends Component {
     constructor () {
@@ -79,13 +81,13 @@ class PostHeader extends Component {
 PostHeader.propTypes = {
     // {voteUp, voteDown, submitEdit, deleteYourPost, submitReply, post}
 };
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    userName: state.user.username
+    userName: state.users.username
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     voteUp: (currentUser, voteID) => dispatch(submitPostVote(currentUser, voteID, 'upVote')),
     voteDown: (currentUser, voteID) => dispatch(submitPostVote(currentUser, voteID, 'downVote')),

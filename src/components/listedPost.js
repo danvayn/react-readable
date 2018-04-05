@@ -67,13 +67,13 @@ class ListedPost extends Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    userName: state.user.username
+    userName: state.users.username
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     deleteYourPost: (post_id) => dispatch(deleteYourPost(post_id)),
     submitPostEdit: (form) => dispatch(submitEditPost({

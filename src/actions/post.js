@@ -4,7 +4,9 @@ import {
   postPost,
   editPost,
   deletePost } from '../utils/serverAPI';
-//constants
+
+import { handleRequest } from '../utils/misc'
+
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const REQUEST_POST = 'REQUEST_POST'
 export const RECEIVE_POSTS_SUCCESS = 'RECEIVE_POSTS_SUCCESS'
@@ -72,9 +74,9 @@ export function fetchPostsIfNeeded(){
   }
 }
 
-export const submitPost = (post) => dispatch => {
+export const submitPost = post => dispatch => {
   postPost(post)
-    .then((response) => dispatch(postCreated(response)))
+    .then(response => dispatch(postCreated(response)))
     .catch(error => dispatch(errorSubmittingPost(error)));
 }
 
@@ -83,26 +85,28 @@ export const postCreated = (post) => ({
   post: post
 });
 
-export const errorSubmittingPost = (error) => ({
+export const errorSubmittingPost = error => ({
   type: POST_SEND_FAIL,
   error: error
 });
 
 
-export const updatePost = (response) => ({
+export const updatePost = response => ({
   type: UPDATE_POST,
   response: response
 });
 
-export const submitEditPost = (post) => dispatch => {
+export const submitEditPost = post => dispatch => {
+  // handleRequest({request: editPost, payload: post, onSuccess: updatePost, onFail: errorUpdatingPost})
   editPost(post)
-    .then((response) => dispatch(updatePost(response)))
+    .then(response => dispatch(updatePost(response)))
     .catch(error => dispatch(errorUpdatingPost(error)));
 }
 
-export const deleteYourPost = (post_id) => dispatch => {
+export const deleteYourPost = post_id => dispatch => {
+  // handleRequest({request: deletePost, payload: post_id, onSuccess: postDeleteSuccessful, onFail: errorDeletingPost})
   deletePost(post_id)
-    .then((response) => dispatch(postDeleteSuccessful(response.id)))
+    .then(response => dispatch(postDeleteSuccessful(response.id)))
     .catch(error => dispatch(errorDeletingPost(error)));
 }
 
