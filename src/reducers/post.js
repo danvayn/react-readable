@@ -87,7 +87,9 @@ const post = (state = initialState, action) => {
     case DELETE_POST_SUCCESS:
       return {
         ...state,
-        list: state.list.filter(post => post.id !== action.post_id),
+        list: sortArray({
+          contents: state.list.filter(post => post.id !== action.post_id),
+          order: state.postStatus.order}),
         commentStatus: {
           error: false,
           loading: false

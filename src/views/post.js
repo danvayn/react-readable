@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Redirect} from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import CommentSort from '../components/post/commentSort'
 import CommentList from '../components/post/CommentList'
@@ -10,23 +9,22 @@ import PostHeader from '../components/post/Header'
 import Header from '../containers/Header'
 import Sidebar from '../components/Sidebar'
 
-import { fetchCommentsIfNeeded } from '../actions/comment';
-
 class PostPage extends Component {
   static propTypes = {
-    post: PropTypes.object.isRequired,
-    getComments: PropTypes.func.isRequired,
-
+    post: PropTypes.oneOfType([
+      PropTypes.object, PropTypes.bool]).isRequired,
   }
+
   render(){
     const { post, selectedSort } = this.props;
     const genericBody = (
-      <div className="zeroMargin">
-      <Row>{post.category+' is a subreddit on readable.'}</Row>
-      <Row>{post.title+' is a great title.'}</Row>
-      <Row>{'Why dont you try submitting to '+post.category+'?'}</Row>
+      <div>
+      <p>{post.category+' is a subreddit on readable.'}</p>
+      <p>{'\"' + post.title + '\"' +' is a great title.'}</p>
+      <p>{'Why dont you try submitting to '+post.category+'?'}</p>
       </div>
     )
+
     return (
       <div className="page post-page">
         <Header showSort={false} currentCategory={post.category}/>
@@ -49,46 +47,5 @@ class PostPage extends Component {
   }
 }
 
- const mapStateToProps = (state, ownProps) => {
-   const post_id = ownProps.match.params.postID;
-   const post = state.posts.list.filter(post => post.id === post_id);
-   return {
-     userName: state.users.username,
-     post_id: post_id,
-     post: post[0] || false,
-     comments: state.comments.list || [],
-     order: state.comments.commentStatus.order,
-   }
- }
 
- const mapDispatchToProps = (dispatch) => {
-   return {
-     getComments: (post_id) => dispatch(fetchCommentsIfNeeded(post_id)),
- }
-}
-
-class PostPageContainer extends React.Component {
-  state = {
-    comments: []
-  }
-  componentDidUpdate(prevProps,prevState, snapshot) {
-    let oldComments = prevProps.comments
-    let newComments = this.props.comments
-   if (oldComments !== newComments) {
-    this.setState({comments: this.props.comments})
-  }
-  }
-  componentDidMount(){
-    const post_id = this.props.post_id
-    if(post_id){
-      this.props.getComments(post_id);
-    }
-  }
-  render(){
-    const {post_id, getComments, post} = this.props;
-    return (
-      <PostPage post={post} comments={this.state.comments} getComments={getComments}/>
-    )
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PostPageContainer);
+export default PostPage

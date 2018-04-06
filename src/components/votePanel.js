@@ -20,7 +20,7 @@ class votePanel extends Component {
     currentUser: PropTypes.string.isRequired,
   }
   componentDidMount() {
-  this.setState({status: this.props.voteStatus[this.props.currentUser]})
+    this.setState({status: this.props.voteStatus[this.props.currentUser]})
   }
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.currentUser !== this.props.currentUser){
@@ -54,21 +54,9 @@ class votePanel extends Component {
 
   render() {
     const { currentUser, voteStatus, voteScore, voteID } = this.props;
-    const divStyle = {
-      margin: '40px',
-      border: '5px solid pink'
-    };
-    const panelStyle = {
-      textAlign: 'center',
-      maxWidth: '50px',
-      minWidth: '25px',
-      marginLeft: '-30px',
-      marginBottom: '0px',
-      boxSizing: 'content-box',
-      display: 'inline-block'}
 
     return(
-      <Panel style={panelStyle} className={"vote-panel voted-" + this.state.status}>
+      <Panel className={"vote-panel voted-" + this.state.status}>
         <Panel.Heading style={{padding: '0'}} onClick={() => this.handleVote(this.state.status, 'up')}>
           <UpIcon className='upvote-icon' style={{pointerEvents: 'none'}}/>
         </Panel.Heading>

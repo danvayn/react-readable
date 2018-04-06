@@ -1,6 +1,6 @@
 import sortBy from 'sort-by'
 
-export const sortArray = ({contents, order}) => {
+export const sortArray = ({contents = [], order}) => {
   const newArray = contents;
   if(contents && contents.length > 0) {
     switch(order) {
@@ -16,6 +16,7 @@ export const sortArray = ({contents, order}) => {
         return contents;
     }
   }
+  return contents
 }
 
 const sortByHighest = (payload) => {

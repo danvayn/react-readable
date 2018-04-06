@@ -5,7 +5,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 
 import Header from '../containers/Header'
 import Sidebar from '../components/Sidebar'
-import PostList from '../components/PostList'
+import PostList from '../components/posts/PostList'
 
 const RootPage = ({posts, content}) => {
  return (

@@ -24,26 +24,24 @@ class PostHeader extends Component {
     const postCategory = post.category
      const { fireRedirect } = this.state
     return(
-    <Panel  bsStyle="primary">
+    <Panel className="original-post" bsStyle="primary">
       <Panel.Heading>
         <Panel.Title componentClass="h3">{post.title}</Panel.Title>
       </Panel.Heading>
       <Panel.Body>
-        {post && <VotePanel
+        <VotePanel
           voteScore={post.voteScore}
           voteUp={voteUp}
           voteDown={voteDown}
-          voteID={post.id}/>
-        }
-        <p className="pull-right">{post.body}</p>
+          voteID={post.id}
+        />
+      <p className="post-body">{post.body}</p>
       </Panel.Body>
       <Panel.Footer>
-        <Grid>
-        <Row>
-          <span>Submitted by {post.author} to {'/r/' + post.category} on {timeConverter(post.timestamp)}</span></Row>
-        <Row>{ post.author === this.props.userName ? (
+          <span>Submitted by {post.author} to {'/r/' + post.category} on {timeConverter(post.timestamp)}</span>
+          <div className="user-actions">{ post.author === this.props.userName ? (
           <Row>
-            <span
+            <span class="delete"
               onClick={() => {
                 if(window.confirm('Delete this post')){
                   deleteYourPost(post.id)}
@@ -58,18 +56,18 @@ class PostHeader extends Component {
                 onSubmit={submitPostEdit}
                 displayText={"Edit this post"}
                 title={"Edit post. You must resubmit to retitle."}
-                placeholder={post.body}
+                startingValue={post.body}
               />
           </Row>
         ) : (
           <Modal
+            optionalClass="reply"
             relatedId={post.id}
             onSubmit={submitReply}
             displayText={"Reply to this post"}
             title={"Reply to post"}
             replyID={post.id}/>
-        )}</Row>
-        </Grid>
+        )}</div>
       </Panel.Footer>
       {fireRedirect && (
          <Redirect to={'/'+postCategory}/>
@@ -96,7 +94,7 @@ const mapDispatchToProps = (dispatch) => {
       post_id: form.relatedId,
       body: form.body,
     })),
-    submitReplyEdit: (form) => {
+    submitReply: (form) => {
       dispatch(submitReply({
         timestamp: form.timestamp,
         parentId: form.relatedId,

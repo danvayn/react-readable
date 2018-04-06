@@ -1,29 +1,18 @@
 import React, {Component} from 'react'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Modal from './modal';
-
 import { Row, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
-import { submitEditPost, deleteYourPost } from '../actions/post'
-import { timeConverter } from '../utils/misc'
+
+import Modal from '../modal';
+
+import { submitEditPost, deleteYourPost } from '../../actions/post'
+import { timeConverter } from '../../utils/misc'
 
 class ListedPost extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      commentCount: this.props.commentCount || 0
-    }
-  }
   render(){
     const {post, submitPostEdit, deleteYourPost} = this.props;
-    const listedStyle = {
-      display: "inline-block",
-      marginLeft: "25px",
-      verticalAlign: "top",
-      marginTop: "5px"
-    }
     return (
-      <div style={listedStyle}>
+      <div className="listed-post">
         <Row>
           <NavLink to={"/"+post.category+'/'+ post.id}>
             <h4 className="list-group-item-heading" style={{display: "inline"}}>{post.title}</h4>
@@ -41,24 +30,27 @@ class ListedPost extends Component {
             {post.commentCount} comments
           </NavLink>
           { post.author === this.props.userName && (
-            <div className="author-links">
-            <span
-              onClick={() => {
-                if(window.confirm('Delete this post')){
-                  deleteYourPost(post.id)}
-                  this.setState({ fireRedirect: true })
-                }
-              }>
-              Delete Post
-            </span>
-
+            <div className="user-actions">
               <Modal
+                optionalClass="edit"
                 relatedId={post.id}
                 onSubmit={submitPostEdit}
                 displayText={"Edit this post"}
-                title={"Edit post. You must resubmit to retitle."}
-                placeholder={post.body}
-              />
+                title={'Edit the body of your post.'}
+                startingValue={post.body}
+              >
+                <p class="hint">If you want to change the post title, you must resubmit your post.</p>
+              </Modal>
+
+              <span className="delete"
+                onClick={() => {
+                  if(window.confirm('Delete this post')){
+                    deleteYourPost(post.id)}
+                    this.setState({ fireRedirect: true })
+                  }
+                }>
+                Delete Post
+              </span>
             </div>
           )
         }

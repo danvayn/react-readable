@@ -6,11 +6,13 @@ import '../App.css';
 
 import { fetchCategories } from '../actions/category';
 import { fetchPostsIfNeeded } from '../actions/post';
+import { updateUser } from '../actions/vote'
 
+import Modal from '../components/modal'
 import RootPageView from '../views/root'
 import CategoryRouter from './Category'
-import PostView from '../views/post'
-import SubmitPost from '../views/submit'
+import PostView from './Post'
+import SubmitPost from './Submit'
 import NoMatch  from '../views/NotFound'
 
 class App extends Component {
@@ -20,7 +22,9 @@ class App extends Component {
   }
 
   render() {
+    const {currentUser, changeUser} = this.props
     return (
+      <div className="readable-app">
       <Router>
         <Switch>
           <Route exact path="/" component={RootPageView} />
@@ -30,6 +34,16 @@ class App extends Component {
           <Route component={NoMatch} />
         </Switch>
       </Router>
+      <div className="user-control">
+          <span>Current user: {currentUser}</span>
+          <Modal
+            onSubmit={changeUser}
+            displayText={"Change user"}
+            title={"Change username"}
+            placeholder={currentUser}
+          />
+      </div>
+    </div>
     );
   }
 }
@@ -42,11 +56,12 @@ App.propTypes = {
 const mapDispatchToProps = dispatch => ({
   getCategories: () => dispatch(fetchCategories()),
   getPosts: () => dispatch(fetchPostsIfNeeded()),
+  changeUser: (form) => dispatch(updateUser(form.body)),
 });
 
 const mapStateToProps = (state) => {
   return {
-    state: state
+    currentUser: state.users.username
   }
 }
 

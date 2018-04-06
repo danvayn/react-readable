@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 import { Form, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
-import FormErrors from './FormErrors'
+import FormErrors from './formErrors'
 
-import { submitPost } from '../actions/post'
+import { submitPost } from '../../actions/post'
 
 //refactor this for use in the below html
 function FieldGroup({ id, label, help, ...props }) {
@@ -46,8 +46,7 @@ class PostSubmitForm extends Component {
   componentDidUpdate(prevProps){
     if(prevProps.categories !== this.props.categories){
       this.setState({
-        categories: [{name: 'select an option...'},
-          ...this.props.categories]
+        categories: [...this.props.categories]
       })
     }
   }
@@ -73,39 +72,43 @@ class PostSubmitForm extends Component {
     const {setCategory} = this.props
     const {categories, fireRedirect} = this.state
 
-    const categoryField = setCategory ? (
-          <option value={setCategory}>{setCategory}</option>
-        ) : (categories && categories.map((category,index) => (
-        <option key={index}value={category.name}>{category.name}</option>)))
-   return (
-     <div>
-      <FormErrors formErrors={this.state.formErrors} />
-      <Form>
-        <FormGroup className={`${this.errorClass(this.state.formErrors.category)}`} controlId="formCategorySelect">
-          <ControlLabel>Select a category</ControlLabel>
-          <FormControl name='category' componentClass="select" onChange={(e) => this.handleChange(e)}placeholder="select" disabled={setCategory}>
-           {categoryField}
-          </FormControl>
-        </FormGroup>
-        <FormGroup className={`${this.errorClass(this.state.formErrors.title)}`} controlId="formTitle">
-          <ControlLabel>Your post title</ControlLabel>
-          <FormControl name='title' type="text" value={this.state.title} onChange={(e) => this.handleChange(e)}placeholder="select"/>
-        </FormGroup>
-        <FormGroup className={`${this.errorClass(this.state.formErrors.body)}`} controlId="formBody">
-          <ControlLabel>Your post body</ControlLabel>
-          <FormControl name='body' componentClass="textarea" type="textarea" value={this.state.body} onChange={(e) => this.handleChange(e)}placeholder="select"/>
-        </FormGroup>
-        <Button disabled={!this.state.formValid} onClick={this.handleSubmit}>Submit</Button>
-       </Form>
-       {fireRedirect && (
-         <Redirect to={('/'+this.state.category) || '/'}/>
-       )}
-     </div>
+    const categoryField = setCategory ? '' :
+      (categories && categories.map((category,index) => (
+        <option key={index}value={category.name}>{category.name}</option>))
+      )
+
+     return (
+       <div>
+        <FormErrors formErrors={this.state.formErrors} />
+        <Form>
+          <FormGroup className={`${this.errorClass(this.state.formErrors.category)}`} controlId="formCategorySelect">
+            <ControlLabel>Select a category</ControlLabel>
+            <FormControl name='category' componentClass="select" onChange={(e) => this.handleChange(e)}placeholder="select" disabled={setCategory}>
+              {setCategory ? (<option value={setCategory}>{setCategory}</option>) : (<option value=''>select a category...</option>) }
+              {categoryField}
+            </FormControl>
+          </FormGroup>
+          <FormGroup className={`${this.errorClass(this.state.formErrors.title)}`} controlId="formTitle">
+            <ControlLabel>Your post title</ControlLabel>
+            <FormControl name='title' type="text" value={this.state.title} onChange={(e) => this.handleChange(e)}placeholder="select"/>
+          </FormGroup>
+          <FormGroup className={`${this.errorClass(this.state.formErrors.body)}`} controlId="formBody">
+            <ControlLabel>Your post body</ControlLabel>
+            <FormControl name='body' componentClass="textarea" type="textarea" value={this.state.body} onChange={(e) => this.handleChange(e)}placeholder="select"/>
+          </FormGroup>
+          <Button disabled={!this.state.formValid} onClick={this.handleSubmit}>Submit</Button>
+         </Form>
+         {fireRedirect && (
+           <Redirect to={('/'+this.state.category) || '/'}/>
+         )}
+       </div>
     )
   }
+
   errorClass(error) {
    return(error.length === 0 ? '' : 'has-error');
   }
+
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let titleValid = this.state.titleValid;

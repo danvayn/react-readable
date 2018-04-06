@@ -21,7 +21,7 @@ class oneFieldModal extends Component {
   }
 
   handleShow() {
-    this.setState({ show: true });
+    this.setState({ show: true, value: this.props.startingValue });
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -38,7 +38,7 @@ class oneFieldModal extends Component {
 
   render() {
     return (
-      <div>
+      <div className={"modal-container " + this.props.optionalClass}>
         <a href="#show" onClick={this.handleShow}>{this.props.displayText}</a>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -47,14 +47,15 @@ class oneFieldModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={() => this.handleSubmit()}>
-              <FormGroup controlId="formControlsTextarea">
+              <FormGroup controlId={"formControlsTextarea" + this.props.relatedId}>
                 <FormControl componentClass="textarea"
+                  value={this.state.value}
                   placeholder={this.props.placeholder || ""}
-                  value={this.props.startingValue}
                   onChange={(event) => this.handleChange(event)}
                 />
               </FormGroup>
             </form>
+            {this.props.children}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleSubmit}>Submit</Button>

@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
 
-import VotePanel from '../components/votePanel'
+import VotePanel from '../votePanel'
 import ListedPost from './listedPost'
 
-import { submitPostVote } from '../actions/vote'
-import { sortArray } from '../utils/sort';
+import { submitPostVote } from '../../actions/vote'
+import { sortArray } from '../../utils/sort';
 
 class ListOfPosts extends Component {
   static propTypes = {
@@ -18,14 +18,21 @@ class ListOfPosts extends Component {
   }
 
   render() {
-    const { voteUp, voteDown, posts, selectedSort } = this.props;
+    const { voteUp, voteDown, loading, posts, selectedSort } = this.props;
+    const noPostsFound = (loading === false && posts.length < 1)
     return (
       <ListGroup className="flush post-list">
+        {noPostsFound &&
+          <Jumbotron className="pad-top">
+            <h1>Uh oh!</h1>
+            <p>Looks like there are no posts in this category. Submit one and be the first!</p>
+          </Jumbotron>
+        }
         {posts && posts.map((post,index) =>
           <ListGroupItem
-            className="post-listing"
+            className="full-width post-listing"
             key={post.id}
-            style={{width: '100%'}}>
+          >
             <VotePanel
                 voteScore={post.voteScore}
                 voteUp={voteUp}
@@ -41,6 +48,7 @@ class ListOfPosts extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+    loading: state.posts.postStatus.loading,
     userName: state.users.username
     }
   }

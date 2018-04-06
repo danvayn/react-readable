@@ -69,7 +69,9 @@ const comments = (state = initialState, action) => {
     case DELETE_COMMENT_SUCCESS:
       return {
         ...state,
-        list: state.list.filter(comment => comment.id !== action.comment_id),
+        list: sortArray({
+          contents: state.list.filter(comment => comment.id !== action.comment_id),
+          order: state.commentStatus.order}),
         commentStatus: {
           error: false,
           loading: false

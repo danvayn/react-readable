@@ -4,12 +4,8 @@ import { connect } from 'react-redux';
 
 import CategoryBar from '../components/header/categoryBar';
 import HeaderBottom from '../components/header/Bottom';
-import Modal from '../components/modal'
 
-import { updateUser } from '../actions/vote'
-
-
-const HeaderBar = ({currentUser,changeUser, categories, currentCategory, showSort}) => {
+const HeaderBar = ({categories, currentCategory, showSort}) => {
 return (
     <Grid fluid className="header-bar">
       <Row>
@@ -23,24 +19,8 @@ return (
           current={currentCategory}
           showSort={showSort}
           />
-
-          <div className="pull-right user-control">
-              <span>Current user: {currentUser}</span>
-              <Modal
-                onSubmit={changeUser}
-                displayText={"Change user"}
-                title={"Change username"}
-                placeholder={currentUser}
-              />
-          </div>
     </Grid>
   )
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeUser: (form) => dispatch(updateUser(form.body)),
-  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -51,5 +31,6 @@ const mapStateToProps = (state, ownProps) => {
     currentUser: state.users.username
   }
 }
-let Header = connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(HeaderBar)
+
+let Header = connect(mapStateToProps, null, null, { pure: false })(HeaderBar)
 export default Header

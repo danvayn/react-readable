@@ -45,7 +45,7 @@ class CommentSort extends Component {
       <Tabs
         activeKey={this.state.key}
         onSelect={this.handleSelect}
-        id="controlled-tab-example"
+        id="comment-sort"
       >
         <Tab eventKey={1} title="Upvotes">
         </Tab>

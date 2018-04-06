@@ -1,31 +1,19 @@
 import React, { Component } from 'react'
-import { Button, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Button, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
 import Modal from '../modal'
 import VotePanel from '../../components/votePanel'
+import Comment from './Comment'
 
 import { submitCommentVote } from '../../actions/vote'
 import { deleteReply, editReply } from '../../actions/comment'
-import { timeConverter } from '../../utils/misc'
 
 class ListOfComments extends Component {
   constructor(props) {
     super(props)
     this.handleDelete = this.handleDelete.bind(this);
-    this.state = { comments: [] }
-  }
-
-  componentDidMount(){
-    this.setState({comments: this.props.comments})
-  }
-  componentDidUpdate(prevProps,prevState, snapshot) {
-    const oldComments = prevProps.comments
-    const newComments = this.props.comments
-    if (oldComments !== newComments) {
-      this.setState({comments: newComments})
-    }
   }
 
   static propTypes = {
@@ -36,22 +24,20 @@ class ListOfComments extends Component {
 
   handleDelete(comment_id){
     this.props.deleteComment(comment_id);
-    this.setState({comments: this.state.comments.filter(comment => comment.id !== comment_id)})
   }
 
   render() {
-  const { voteUp, voteDown, deleteReply, submitEdit, userName } = this.props;
-
-  const listedStyle = {
-    display: "inline-block",
-    marginLeft: "25px",
-    verticalAlign: "top",
-    marginTop: "5px"
-  }
-
+  const { voteUp, voteDown, deleteReply, loading, submitEdit, userName } = this.props;
+  const noCommentsDisplay = (this.props.comments.length < 1 && loading === false)
     return (
       <ListGroup className="flush comment-list">
-        {this.state.comments && this.state.comments.map((comment,index) =>
+        {noCommentsDisplay &&
+          <Jumbotron className="pad-top">
+            <h1>Uh oh!</h1>
+            <p>Looks like there are no comments here. Submit one and be the first!</p>
+          </Jumbotron>
+        }
+        {this.props.comments && this.props.comments.map((comment,index) =>
           <ListGroupItem
             className="comment-listing"
             key={comment.id}>
@@ -62,34 +48,26 @@ class ListOfComments extends Component {
                 voteID={comment.id}
                 currentUser={userName}
                 />
-            <div style={listedStyle}>
-
-              <Row>
-                <h4 style={{display: "inline"}}>{comment.body}</h4>
-              </Row>
-              <Row>
-                <span>Submitted by {comment.author} on {timeConverter(comment.timestamp)}</span>
-              </Row>
-              { comment.author === userName && (
-                <Row>
-                  <Button
-                    onClick={() => {if(window.confirm('Delete this comment')){this.handleDelete(comment.id)}}}
-                    bsStyle="danger">
-                    Delete Comment
-                  </Button>
-
-                    <Modal
-                      relatedId={comment.id}
-                      onSubmit={submitEdit}
-                      displayText={"Edit this comment"}
-                      title={"Edit comment"}
-                      placeholder={comment.body}
-                      startingValue={comment.body}
-                    />
-                </Row>
-              )}
-            </div>
-        </ListGroupItem>
+              <Comment comment={comment}>
+                { comment.author === userName && (
+                  <Row className="user-actions">
+                      <Modal
+                        optionalClass="edit"
+                        relatedId={comment.id}
+                        onSubmit={submitEdit}
+                        displayText={"Edit this comment"}
+                        title={"Edit comment"}
+                        startingValue={comment.body}
+                      />
+                      <span className="delete"
+                        onClick={() => {if(window.confirm('Delete this comment'))
+                          this.handleDelete(comment.id)}}>
+                        Delete Comment
+                      </span>
+                  </Row>
+                )}
+              </Comment>
+          </ListGroupItem>
         )}
       </ListGroup>
     )
@@ -110,6 +88,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     comments: state.comments.list,
+    loading: state.comments.commentStatus.loading || state.posts.postStatus.loading,
     userName: state.users.username
   };
 };
