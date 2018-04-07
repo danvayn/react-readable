@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid, Row } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 const NoMatch = ({ location }) => (
   <Grid className="content-container">
@@ -16,5 +17,9 @@ const NoMatch = ({ location }) => (
   </Row>
   </Grid>
 );
+
+NoMatch.propTypes = {
+  location: PropTypes.object.isRequired,
+}
 
 export default NoMatch

@@ -4,9 +4,8 @@ import { Row, Col } from 'react-bootstrap';
 import logo from '../../logo.svg';
 
 import PostSort from './postSort'
-import Modal from '../modal'
 
-const Bottom = (props) => {
+const HeaderBottom = (props) => {
 
   const catDisplay = () => {
     if(props.current) {
@@ -22,7 +21,7 @@ const Bottom = (props) => {
   return (
     <Row className="header-bottom">
       <Col xsHidden sm={3} md={2}>
-        <img src={logo} height="50px"/>
+        <img alt='logo' src={logo} height="50px"/>
         {catDisplay()}
       </Col>
       {props.showSort &&
@@ -34,4 +33,4 @@ const Bottom = (props) => {
  );
 }
 
-export default Bottom;
+export default HeaderBottom;

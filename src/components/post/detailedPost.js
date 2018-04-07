@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import Moment from 'react-moment';
 import { Redirect } from 'react-router-dom';
-import { browserHistory } from 'react-router'
-import { Grid, Panel, Row, Button } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
-import Modal from '../modal'
-import VotePanel from '../votePanel'
+import Modal from '../modal';
+import VotePanel from '../votePanel';
 
-import { submitPostVote } from '../../actions/vote'
-import { submitEditPost, deleteYourPost } from '../../actions/post'
-import { submitReply } from '../../actions/comment'
-import { timeConverter } from '../../utils/misc'
+import { submitPostVote } from '../../actions/vote';
+import { submitEditPost, deleteYourPost } from '../../actions/post';
+import { submitReply } from '../../actions/comment';
 
-class PostHeader extends Component {
+class DetailedPost extends Component {
     constructor () {
       super();
       this.state = {
@@ -20,8 +19,9 @@ class PostHeader extends Component {
       }
   }
   render() {
-    const {voteUp, voteDown, submitReplyEdit, submitPostEdit, deleteYourPost, submitReply, post} = this.props
+    const {voteUp, voteDown, submitPostEdit, deleteYourPost, submitReply, post} = this.props
     const postCategory = post.category
+    const postDate = new Date(this.props.post.timestamp);
      const { fireRedirect } = this.state
     return(
     <Panel className="original-post" bsStyle="primary">
@@ -29,45 +29,46 @@ class PostHeader extends Component {
         <Panel.Title componentClass="h3">{post.title}</Panel.Title>
       </Panel.Heading>
       <Panel.Body>
-        <VotePanel
+        { post && <VotePanel
           voteScore={post.voteScore}
           voteUp={voteUp}
           voteDown={voteDown}
           voteID={post.id}
-        />
+        />}
       <p className="post-body">{post.body}</p>
       </Panel.Body>
       <Panel.Footer>
-          <span>Submitted by {post.author} to {'/r/' + post.category} on {timeConverter(post.timestamp)}</span>
-          <div className="user-actions">{ post.author === this.props.userName ? (
-          <Row>
-            <span class="delete"
-              onClick={() => {
-                if(window.confirm('Delete this post')){
-                  deleteYourPost(post.id)}
-                  this.setState({ fireRedirect: true })
-                }
-              }>
-              Delete Post
-            </span>
-
+          <span>{`Submitted by ${post.author} to /r/${post.category} `}
+            <Moment fromNow>{postDate}</Moment>
+          </span>
+          { post.author === this.props.userName ? (
+            <div className="user-actions detailed-actions">
               <Modal
-                relatedId={post.id}
+                relatedId={post.id || ''}
                 onSubmit={submitPostEdit}
+                optionalClass={"edit"}
                 displayText={"Edit this post"}
                 title={"Edit post. You must resubmit to retitle."}
                 startingValue={post.body}
               />
-          </Row>
-        ) : (
-          <Modal
+            <span className="delete"
+                onClick={() => {
+                  if(window.confirm('Delete this post?')){
+                    deleteYourPost(post.id)}
+                    this.setState({ fireRedirect: true })
+                  }
+                }>
+                Delete Post
+              </span>
+            </div>
+          ) : ( <Modal
             optionalClass="reply"
-            relatedId={post.id}
+            relatedId={post.id  || ''}
             onSubmit={submitReply}
             displayText={"Reply to this post"}
             title={"Reply to post"}
             replyID={post.id}/>
-        )}</div>
+        )}
       </Panel.Footer>
       {fireRedirect && (
          <Redirect to={'/'+postCategory}/>
@@ -76,9 +77,6 @@ class PostHeader extends Component {
     )
   }
 }
-PostHeader.propTypes = {
-    // {voteUp, voteDown, submitEdit, deleteYourPost, submitReply, post}
-};
 const mapStateToProps = (state) => {
   return {
     userName: state.users.username
@@ -105,4 +103,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedPost);

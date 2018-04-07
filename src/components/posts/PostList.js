@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Jumbotron, Grid, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import VotePanel from '../votePanel'
 import ListedPost from './listedPost'
 
 import { submitPostVote } from '../../actions/vote'
-import { sortArray } from '../../utils/sort';
 
 class ListOfPosts extends Component {
   static propTypes = {
     posts: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
     voteUp: PropTypes.func.isRequired,
     voteDown: PropTypes.func.isRequired,
   }
 
   render() {
-    const { voteUp, voteDown, loading, posts, selectedSort } = this.props;
+    const { voteUp, voteDown, loading, posts } = this.props;
     const noPostsFound = (loading === false && posts.length < 1)
     return (
       <ListGroup className="flush post-list">
@@ -30,7 +29,7 @@ class ListOfPosts extends Component {
         }
         {posts && posts.map((post,index) =>
           <ListGroupItem
-            className="full-width post-listing"
+            className="full-width"
             key={post.id}
           >
             <VotePanel

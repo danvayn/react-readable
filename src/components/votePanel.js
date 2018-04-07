@@ -27,7 +27,7 @@ class votePanel extends Component {
       this.setState({status: ''})
     }
   }
-  handleVote(status='', direction){
+  handleVote(status, direction){
     const { currentUser, voteID } = this.props;
     if(direction === 'up' && status === '') {
       this.props.voteUp(currentUser, voteID);
@@ -53,18 +53,18 @@ class votePanel extends Component {
   }
 
   render() {
-    const { currentUser, voteStatus, voteScore, voteID } = this.props;
-
+    const { voteScore } = this.props;
+    const stateStatus = this.state.status || ''
     return(
-      <Panel className={"vote-panel voted-" + this.state.status}>
-        <Panel.Heading style={{padding: '0'}} onClick={() => this.handleVote(this.state.status, 'up')}>
-          <UpIcon className='upvote-icon' style={{pointerEvents: 'none'}}/>
+      <Panel className={"vote-panel " + stateStatus}>
+        <Panel.Heading onClick={() => this.handleVote(stateStatus, 'up')}>
+          <UpIcon className='vote-icon upvote-icon'/>
         </Panel.Heading>
-        <Panel.Body style={{padding: '5px'}}>
-        <span className={"score score-"+ this.state.status}>{voteScore}</span>
+        <Panel.Body>
+        <span className={"vote-score"}>{voteScore}</span>
         </Panel.Body>
-        <Panel.Footer style={{padding: '0'}}  onClick={() => this.handleVote(this.state.status, 'down')}>
-        <DownIcon  className='downvote-icon' style={{pointerEvents: 'none'}}/>
+        <Panel.Footer onClick={() => this.handleVote(stateStatus, 'down')}>
+        <DownIcon  className='vote-icon downvote-icon'/>
         </Panel.Footer>
       </Panel>
     )

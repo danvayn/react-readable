@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import CommentTabs from '../tabs'
 
 import { sortCommentsByOld,
 sortCommentsByNew,
 sortCommentsByLowestVote,
 sortCommentsByHighestVote, } from '../../actions/sort';
+
 
 class CommentSort extends Component {
   constructor(props, context) {
@@ -40,23 +41,8 @@ class CommentSort extends Component {
 
   render() {
     return (
-      <div className="sort-tabs">
-        Sort by
-      <Tabs
-        activeKey={this.state.key}
-        onSelect={this.handleSelect}
-        id="comment-sort"
-      >
-        <Tab eventKey={1} title="Upvotes">
-        </Tab>
-        <Tab eventKey={2} title="Downvotes">
-        </Tab>
-        <Tab eventKey={3} title="Newest">
-        </Tab>
-        <Tab eventKey={4} title="Oldest">
-        </Tab>
-      </Tabs>
-    </div>
+      <CommentTabs
+      id="comment-sort" activeKey={this.state.key} onSelect={this.handleSelect} />
     )
   }
 }

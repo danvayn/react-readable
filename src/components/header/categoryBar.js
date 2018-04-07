@@ -1,7 +1,6 @@
 import React from 'react';
-
+import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
 
 const categoryBar = ({categories}) => {
   const categoryLength = categories.length-1
@@ -14,7 +13,7 @@ const categoryBar = ({categories}) => {
            <span key={index} className="category-listing">
 
             <span>{categoryLength < index ? '' : ' - '}</span>
-           <NavLink activeClassName="selected" className="inline" key={index} to={`/${category.path}/`}>
+           <NavLink activeClassName="selected" className="inline" key={index} exact to={`/${category.path}/`}>
                  {category.name}
                </NavLink>
             </span>
@@ -22,6 +21,10 @@ const categoryBar = ({categories}) => {
         }
    </div>
  );
+}
+
+categoryBar.propTypes = {
+  categories: PropTypes.array.isRequired
 }
 
 export default categoryBar;

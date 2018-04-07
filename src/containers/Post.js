@@ -1,34 +1,42 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types'
 import PostPage from '../views/post'
 import NoMatch  from '../views/NotFound'
 import { fetchCommentsIfNeeded } from '../actions/comment';
 
 class PostPageContainer extends Component {
-  state = {
-    comments: []
+  constructor(){
+    super()
+    this.state = {
+      comments: []
+    }
   }
+  static propTypes = {
+    getComments: PropTypes.func.isRequired,
+    comments: PropTypes.array.isRequired,
+    post_id: PropTypes.string.isRequired,
+    post: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+    postLoading: PropTypes.bool.isRequired,
+  }
+
   componentDidUpdate(prevProps,prevState, snapshot) {
     let oldComments = prevProps.comments
     let newComments = this.props.comments
-   if (oldComments !== newComments) {
-    this.setState({comments: this.props.comments})
-  }
+     if (oldComments !== newComments) {
+      this.setState({comments: this.props.comments})
+    }
   }
   componentDidMount(){
     this.props.getComments(this.props.post_id);
   }
 
   render(){
-    const {post_id, getComments, post, postLoading} = this.props;
+    const {post_id, post, postLoading} = this.props;
     const postNotFound = (postLoading === false && post === false)
     const postDisplay = postNotFound ?
-      (<NoMatch location={{pathname: ('Post with id \''+post_id+'\'')}}/>) :
-      (<PostPage
-        post={post}
-        comments={this.state.comments}
-      />)
+      (<NoMatch location={{pathname: (`Post with id '${post_id}'`)}}/>) :
+      (<PostPage post={post} comments={this.state.comments}/>)
 
     return (
       <div>
@@ -46,7 +54,6 @@ const mapStateToProps = (state, ownProps) => {
     post_id: post_id,
     post: post || false,
     comments: state.comments.list,
-    order: state.comments.commentStatus.order,
     postLoading: state.posts.postStatus.loading
   }
 }

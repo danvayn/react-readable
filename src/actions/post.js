@@ -1,11 +1,12 @@
 import {
   getPosts,
-  getPost,
+  // getPost,
   postPost,
   editPost,
   deletePost } from '../utils/serverAPI';
 
-import { handleRequest } from '../utils/misc'
+// import { submitPostVote } from './vote'
+// import { handleRequest } from '../utils/misc'
 
 export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const REQUEST_POST = 'REQUEST_POST'
@@ -26,12 +27,12 @@ function requestPosts(category = null) {
   }
 }
 
-function requestPost(post_id) {
-  return {
-    post_id: post_id,
-    type: REQUEST_POST
-  }
-}
+// function requestPost(post_id) {
+//   return {
+//     post_id: post_id,
+//     type: REQUEST_POST
+//   }
+// }
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS_SUCCESS,
@@ -76,7 +77,10 @@ export function fetchPostsIfNeeded(){
 
 export const submitPost = post => dispatch => {
   postPost(post)
-    .then(response => dispatch(postCreated(response)))
+    .then(response => {
+      dispatch(postCreated(response));
+      // dispatch(submitPostVote(response.author,response.id, 'upVote'))
+    })
     .catch(error => dispatch(errorSubmittingPost(error)));
 }
 

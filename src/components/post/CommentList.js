@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Jumbotron, Button, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Jumbotron, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
@@ -27,8 +27,8 @@ class ListOfComments extends Component {
   }
 
   render() {
-  const { voteUp, voteDown, deleteReply, loading, submitEdit, userName } = this.props;
-  const noCommentsDisplay = (this.props.comments.length < 1 && loading === false)
+  const { voteUp, voteDown, loading, submitEdit, userName } = this.props;
+  const noCommentsDisplay = (this.props.comments.length === 0 && loading === false)
     return (
       <ListGroup className="flush comment-list">
         {noCommentsDisplay &&
@@ -47,26 +47,26 @@ class ListOfComments extends Component {
                 voteDown={voteDown}
                 voteID={comment.id}
                 currentUser={userName}
-                />
-              <Comment comment={comment}>
-                { comment.author === userName && (
-                  <Row className="user-actions">
-                      <Modal
-                        optionalClass="edit"
-                        relatedId={comment.id}
-                        onSubmit={submitEdit}
-                        displayText={"Edit this comment"}
-                        title={"Edit comment"}
-                        startingValue={comment.body}
-                      />
-                      <span className="delete"
-                        onClick={() => {if(window.confirm('Delete this comment'))
-                          this.handleDelete(comment.id)}}>
-                        Delete Comment
-                      </span>
-                  </Row>
-                )}
-              </Comment>
+            />
+            <Comment comment={comment}>
+              { comment.author === userName && (
+                <Row className="user-actions comment-actions">
+                  <Modal
+                    optionalClass="edit"
+                    relatedId={comment.id}
+                    onSubmit={submitEdit}
+                    displayText={"Edit this comment"}
+                    title={"Edit comment"}
+                    startingValue={comment.body}
+                  />
+                  <span className="delete"
+                    onClick={() => {if(window.confirm('Delete this comment'))
+                      this.handleDelete(comment.id)}}>
+                    Delete Comment
+                  </span>
+                </Row>
+              )}
+            </Comment>
           </ListGroupItem>
         )}
       </ListGroup>

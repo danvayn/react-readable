@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Tabs, Tab } from 'react-bootstrap';
+
+import PostTabs from '../tabs'
 
 import { sortPostsByOld,
 sortPostsByNew,
@@ -41,22 +42,9 @@ class PostSort extends Component {
 
   render() {
     return (
-      <div style={{position:'relative', height:'50px'}}className="sort-tabs">
-      <Tabs
-        activeKey={this.state.key}
-        onSelect={this.handleSelect}
-        id="post-sort-tabs"
-      >
-        <Tab eventKey={1} title="top">
-        </Tab>
-        <Tab eventKey={2} title="bottom">
-        </Tab>
-        <Tab eventKey={3} title="new">
-        </Tab>
-        <Tab eventKey={4} title="old">
-        </Tab>
-      </Tabs>
-    </div>
+    <div>
+      <PostTabs id="post-sort-tabs" activeKey={this.state.key} onSelect={this.handleSelect}/>
+      </div>
     )
   }
 }

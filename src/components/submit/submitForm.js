@@ -2,24 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
-import { Form, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Form, Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 
 import FormErrors from './formErrors'
 
 import { submitPost } from '../../actions/post'
 
-//refactor this for use in the below html
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
-
 class PostSubmitForm extends Component {
+  static propTypes = {
+    setCategory: PropTypes.oneOfType([
+      PropTypes.string, PropTypes.bool]).isRequired,
+    submitPost: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+  }
   constructor () {
     super();
     this.state = {

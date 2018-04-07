@@ -22,10 +22,13 @@ const SubmitPostContainer = ({category, submitPost}) => {
     </div>
    )
  }
-
+ SubmitPostContainer.propTypes = {
+   category: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+   submitPost: PropTypes.func.isRequired,
+ }
  const mapDispatchToProps = dispatch => ({
    submitPost: (post) => dispatch(submitPost(post)),
- });
+ })
 
  const mapStateToProps = (state, ownProps) => {
    const submissionCategory = ownProps.match.params.categoryName

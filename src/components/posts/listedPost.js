@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
+import Moment from 'react-moment';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Row, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
+import { Row, Badge } from 'react-bootstrap';
 
 import Modal from '../modal';
 
 import { submitEditPost, deleteYourPost } from '../../actions/post'
-import { timeConverter } from '../../utils/misc'
 
 class ListedPost extends Component {
   render(){
     const {post, submitPostEdit, deleteYourPost} = this.props;
+
+    const postDate = new Date(post.timestamp);
     return (
       <div className="listed-post">
         <Row>
@@ -19,18 +21,17 @@ class ListedPost extends Component {
           </NavLink>
         </Row>
         <Row>
-            <span>{"Submitted to "}
-            <Badge>/r/{post.category}</Badge>
-              {' by '+post.author+' on '}
-              {timeConverter(post.timestamp)}
-          </span>
+            <p className="post-info">Submitted to <Badge>/r/{post.category}</Badge> by
+              <span className="author">{` ${post.author} `}</span>
+              <Moment fromNow>{postDate}</Moment>
+          </p>
         </Row>
         <Row>
-          <NavLink to={'/'+post.category+ '/' + post.id}>
+          <NavLink className="comment-count" to={'/'+post.category+ '/' + post.id}>
             {post.commentCount} comments
           </NavLink>
           { post.author === this.props.userName && (
-            <div className="user-actions">
+            <div className="user-actions post-actions">
               <Modal
                 optionalClass="edit"
                 relatedId={post.id}
@@ -39,12 +40,12 @@ class ListedPost extends Component {
                 title={'Edit the body of your post.'}
                 startingValue={post.body}
               >
-                <p class="hint">If you want to change the post title, you must resubmit your post.</p>
+                <p className="hint">If you want to change the post title, you must resubmit your post.</p>
               </Modal>
 
               <span className="delete"
                 onClick={() => {
-                  if(window.confirm('Delete this post')){
+                  if(window.confirm('Are you sure you want to delete this post?')){
                     deleteYourPost(post.id)}
                     this.setState({ fireRedirect: true })
                   }

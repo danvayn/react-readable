@@ -1,21 +1,21 @@
 import {
   RECEIVE_POSTS_FAILURE,
   RECEIVE_POSTS_SUCCESS,
-  RECEIVE_POST_FAILURE,
-  RECEIVE_POST_SUCCESS,
+  // RECEIVE_POST_FAILURE,
+  // RECEIVE_POST_SUCCESS,
   REQUEST_POSTS,
   REQUEST_POST,
   UPDATE_POST,
   DELETE_POST_FAIL,
   DELETE_POST_SUCCESS,
   POST_SEND_SUCCESS,
-  POST_END_FAIL
+  POST_SEND_FAIL
 } from '../actions/post'
 
-import {
-  UPVOTE_POST,
-  DOWNVOTE_POST,
-} from '../actions/vote'
+// import {
+//   UPVOTE_POST,
+//   DOWNVOTE_POST,
+// } from '../actions/vote'
 
 import {
 SORT_POSTS_BY_LOWEST_VOTE,
@@ -77,6 +77,13 @@ const post = (state = initialState, action) => {
         ...state,
         list: sortArray({contents: [...state.list, action.post], order: state.postStatus.order}),
       }
+    case POST_SEND_FAIL:
+      return {
+        ...state,
+        postStatus: {
+          error: true
+        }
+      }
     case UPDATE_POST:
       const indexOf = state.list.findIndex((post) => (post.id === action.response.id))
       state.list[indexOf] = action.response
@@ -90,19 +97,18 @@ const post = (state = initialState, action) => {
         list: sortArray({
           contents: state.list.filter(post => post.id !== action.post_id),
           order: state.postStatus.order}),
-        commentStatus: {
+        postStatus: {
           error: false,
           loading: false
         }
       }
-    case UPVOTE_POST:
+    case DELETE_POST_FAIL:
       return {
         ...state,
+        postStatus: {
+          error: true
         }
-    case DOWNVOTE_POST:
-      return {
-        ...state,
-        }
+      }
     case SORT_POSTS_BY_NEW:
       return {
         ...state,

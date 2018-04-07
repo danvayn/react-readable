@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import CategoryBar from '../components/header/categoryBar';
 import HeaderBottom from '../components/header/Bottom';
@@ -23,6 +24,12 @@ return (
   )
 }
 
+HeaderBar.propTypes = {
+  categories: PropTypes.array.isRequired,
+  currentCategory: PropTypes.string.isRequired,
+  showSort: PropTypes.bool.isRequired,
+}
+
 const mapStateToProps = (state, ownProps) => {
   return {
     categories: state.categories.list,
@@ -32,5 +39,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-let Header = connect(mapStateToProps, null, null, { pure: false })(HeaderBar)
-export default Header
+export default connect(mapStateToProps, null, null, { pure: false })(HeaderBar)

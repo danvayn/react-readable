@@ -1,8 +1,16 @@
-import React, {Component} from 'react'
-import { FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 
 class oneFieldModal extends Component {
+  static propTypes = {
+    startingValue: PropTypes.string,
+    userName: PropTypes.string.isRequired,
+    relatedId: PropTypes.string.isRequired,
+    optionalClass: PropTypes.string,
+    placeholder: PropTypes.string,
+  }
   constructor(props, context) {
     super(props, context);
     this.state = {value: ''};
@@ -26,7 +34,7 @@ class oneFieldModal extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.onSubmit({
-      relatedId: (this.props.relatedId || ''),
+      relatedId: this.props.relatedId,
       body: this.state.value,
       submittedBy: this.props.userName,
       timestamp: Date.now()});
@@ -38,7 +46,7 @@ class oneFieldModal extends Component {
 
   render() {
     return (
-      <div className={"modal-container " + this.props.optionalClass}>
+      <div className={"modal-container " + (this.props.optionalClass || '')}>
         <a href="#show" onClick={this.handleShow}>{this.props.displayText}</a>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -71,6 +79,6 @@ const mapStateToProps = (state) => {
   return {
     userName: state.users.username
     }
-  }
+}
 
 export default connect(mapStateToProps, null)(oneFieldModal);
